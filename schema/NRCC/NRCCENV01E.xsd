@@ -17123,7 +17123,9 @@ case FixedWindow: result = 0.42
 case CurtainWall: result = 0.46
 case StoreFront: result = 0.46
 case OperableWindow: result = 0.32
+case OperableWindowMF: result = 0.32
 case GlazedDoor: result = 0.17
+case GlazedDoorMF: result = 0.17
 End Switch
 
 Else If Kvertperf06_TopLevelOccupancy == HotelMotel
@@ -17132,7 +17134,9 @@ case FixedWindow: result = 0.42
 case CurtainWall: result = 0.46
 case StoreFront: result = 0.46
 case OperableWindow: result = 0.32
+case OperableWindowMF: result = 0.32
 case GlazedDoor: result = 0.17
+case GlazedDoorMF: result = 0.17
 End Switch
 End If
 
