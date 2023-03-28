@@ -17116,16 +17116,14 @@ End If</xsd:documentation>
                                                 <xsd:element name="Kvertperf11c_VT_Limit" type="com:VT_Limit" >
                                                    <xsd:annotation>
                                                       <xsd:documentation source="FieldText">Required Product Performance</xsd:documentation>
-                                                      <xsd:documentation source="CalculationsAndRules">If Kvertperf08_ComplianceMethodSHGC_VT == Table140_3BCD
+                                                      <xsd:documentation source="CalculationsAndRules">f Kvertperf08_ComplianceMethodSHGC_VT == Table140_3BCD
 If Kvertperf06_TopLevelOccupancy == Nonresidential
 Switch (Kvertperf05_FenestrationProductType)
 case FixedWindow: result = 0.42
 case CurtainWall: result = 0.46
 case StoreFront: result = 0.46
 case OperableWindow: result = 0.32
-case OperableWindowMF: result = 0.32
 case GlazedDoor: result = 0.17
-case GlazedDoorMF: result = 0.17
 End Switch
 
 Else If Kvertperf06_TopLevelOccupancy == HotelMotel
@@ -17134,9 +17132,7 @@ case FixedWindow: result = 0.42
 case CurtainWall: result = 0.46
 case StoreFront: result = 0.46
 case OperableWindow: result = 0.32
-case OperableWindowMF: result = 0.32
 case GlazedDoor: result = 0.17
-case GlazedDoorMF: result = 0.17
 End Switch
 End If
 
@@ -17157,7 +17153,7 @@ End If</xsd:documentation>
                                                 <xsd:element name="Kvertperf11c_NotApplicableMessage" >
                                                    <xsd:annotation>
                                                       <xsd:documentation source="FieldText">Required Product Performance</xsd:documentation>
-                                                      <xsd:documentation source="CalculationsAndRules">f Kvertperf05_FenestrationProductType == ChromogenicFen Or DemisingWallFen Or
+                                                      <xsd:documentation source="CalculationsAndRules">If Kvertperf05_FenestrationProductType == ChromogenicFen Or DemisingWallFen Or
 GlazedDoorMF
 Or
 If Kvertperf06_TopLevelOccupancy == RelocableSchoolBuildingAllZones
