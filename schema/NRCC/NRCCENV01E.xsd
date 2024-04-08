@@ -17594,7 +17594,8 @@ Else If Kvertperf05_FenestrationProductType != GlazedDoor
             End If
          End If
       End If
-   End If</xsd:documentation>
+   End If
+End If</xsd:documentation>
                                                    </xsd:annotation>
                                                 </xsd:element>
                                                 <xsd:element name="Kvertperf11a_NotApplicableMessage" >
