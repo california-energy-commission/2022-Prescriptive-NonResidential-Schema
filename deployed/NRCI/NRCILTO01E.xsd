@@ -467,7 +467,7 @@ End If</xsd:documentation>
 If Lum01_InstalledSameasCC == true
 If Lum05cc_LuminairePower == SeePlans
 User Input
-Else result = Lum05cc_LuminairePower 
+Else result = Lum05cc_LuminairePower
 Else If Lum05cc_LuminairePower IsPresent
 User input
 End If
@@ -1079,7 +1079,7 @@ or
 Bug07cc_GlareRatingBUG == SeePlans
 result = MayNotComply
 Else If
-                                              
+
 Bug03_MountingHeightRangeBUG == Bug03cc_MountingHeightRangeBUG
 And 
 Bug04_BackLightRatingBUG == Bug04cc_BackLightRatingBUG
@@ -1218,7 +1218,7 @@ If Ctrl02cc_ShutOffControlsOutdoors == SeePlans
 User selects from list
 Else result = Ctrl02cc_ShutOffControlsOutdoors
 Else
-User selects from list 
+User selects from list
 End If</xsd:documentation>
                                                          </xsd:annotation>
                                                       </xsd:element>
