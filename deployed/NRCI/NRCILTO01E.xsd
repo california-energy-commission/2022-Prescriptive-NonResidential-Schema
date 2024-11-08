@@ -901,13 +901,7 @@ End If</xsd:documentation>
                                                             </xsd:appinfo>
                                                          </xsd:annotation>
                                                          <xsd:simpleType>
-                                                            <xsd:union memberTypes="lit:LuminaireDescription comp:SeePlansMessage"/>
-                                                            <xsd:restriction base="comp:MountingHeightRangeBUG">
-                                                               <xsd:enumeration value="Back1To2MH"/>
-                                                               <xsd:enumeration value="BackHalfTo1MH"/>
-                                                               <xsd:enumeration value="BackLessThanHalfMH"/>
-                                                               <xsd:enumeration value="GT2MH"/>
-                                                            </xsd:restriction>
+                                                            <xsd:union memberTypes="comp:MountingHeightRangeBUG comp:SeePlansMessage"/>
                                                          </xsd:simpleType>
                                                       </xsd:element>
                                                       <xsd:element name="Bug03_MountingHeightRangeBUG">
@@ -1000,12 +994,6 @@ End If</xsd:documentation>
                                                          </xsd:annotation>
                                                          <xsd:simpleType>
                                                             <xsd:union memberTypes="comp:MountingHeightRangeBUG comp:SeePlansMessage"/>
-                                                            <xsd:restriction base="comp:MountingHeightRangeBUG">
-                                                               <xsd:enumeration value="FrontLessThanHalfMH"/>
-                                                               <xsd:enumeration value="Front1To2MH"/>
-                                                               <xsd:enumeration value="FrontHalfTo1MH"/>
-                                                               <xsd:enumeration value="GT2MH"/>
-                                                            </xsd:restriction>
                                                          </xsd:simpleType>
                                                       </xsd:element>
                                                       <xsd:element name="Bug06_MountingHeightRangeBUG">
