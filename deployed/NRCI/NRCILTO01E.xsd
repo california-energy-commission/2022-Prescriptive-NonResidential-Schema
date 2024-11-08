@@ -293,7 +293,7 @@ End If</xsd:documentation>
                            <xsd:element name="Row" minOccurs="1" maxOccurs="unbounded">
                               <xsd:complexType>
                                  <xsd:sequence>
-                                    <xsd:element name="Lum01cc_LuminaireName" type="lit:LuminaireName">
+                                    <xsd:element name="Lum01cc_LuminaireName">
                                        <xsd:annotation>
                                           <xsd:documentation source="FieldText">Name or Item Tag</xsd:documentation>
                                           <xsd:documentation source="CalculationsAndRules">If CCLTOE parent
@@ -1138,7 +1138,7 @@ End If</xsd:documentation>
                            <xsd:element name="Row" minOccurs="1" maxOccurs="unbounded">
                               <xsd:complexType>
                                  <xsd:sequence>
-                                    <xsd:element name="Ctrl01cc_SpaceDescription" type="com:SpaceDescription">
+                                    <xsd:element name="Ctrl01cc_SpaceDescription">
                                        <xsd:annotation>
                                           <xsd:documentation source="FieldText">Area Description</xsd:documentation>
                                           <xsd:documentation source="CalculationsAndRules">If CCLTOE parent
