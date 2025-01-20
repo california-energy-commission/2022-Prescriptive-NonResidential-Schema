@@ -1936,10 +1936,7 @@ And If Fc05 and Fc06 != BlankGrayedOut Then Fc05 GTE Fc06;
  
 Condition 5
 If TableChiller IsPresent  Then for every row
-If Fd02_ChillerType == AirCooledWithCondenser or AirCooledWithOutCondenser
-AND
-Fd05_ChillerExceptionPathB != EfficiencyException6 Or EfficiencyException7 Or EfficiencyException8 Then
-Fd04_ChillerTonsRange != GTE300ToLT400 or GTE400ToLT600 or GTE600
+If Fd05_ChillerExceptionPathB != EfficiencyException6 Or EfficiencyException7 Or EfficiencyException8 
 If any field in range Fd01 - Fd10 != BlankGrayedOut has data Then
  
 Switch (Fd08a_EfficiencyType )
@@ -1948,7 +1945,7 @@ If Fd06a_EfficiencyEER And Fd07a_RangeMinEER != BlankGrayedOut Then
 Fd06a_EfficiencyEER GTE Fd07a_RangeMinEER;
 End If
  
-case COP
+case COP:
 If Fd06a_EfficiencyCOP And Fd07a_RangeMinCOP != BlankGrayedOut Then 
 Fd06a_EfficiencyCOP GTE Fd07a_RangeMinCOP; 
 Else If Fd06a_ChillerCOP And Fd07a_RangeMinCOP != BlankGrayedOut Then
@@ -1957,7 +1954,7 @@ End If
  
 case kWperTon:
 If Fd06a_EfficiencykWperTon And Fd07a_RangeMinkWperTon != BlankGrayedOut Then 
-Fd07a_RangeMinkWperTon GTE Fd06a_EfficiencykWperTon;
+Fd06a_EfficiencykWperTon LTE Fd07a_RangeMinkWperTon;
 End If
 End Switch
  
@@ -1974,12 +1971,36 @@ End If
  
 case kWperTon_IPLV:
 If Fd06b_EfficiencykWperTon_IPLV And Fd07b_RangeMinkWperTon_IPLV != BlankGrayedOut Then 
-Fd07b_RangeMinkWperTon_IPLV GTE Fd06b_EfficiencykWperTon_IPLV;
+Fd06b_EfficiencykWperTon_IPLV LTE Fd07b_RangeMinkWperTon_IPLV;
+End If
+End Switch 
+
+Switch (Fd08c_EfficiencyType)
+case EER:
+If Fd06c_EfficiencyEER and Fd07c_EfficiencyEER != BlankGrayedOut
+Fd06c_EfficiencyEER GTE Fd07c_EfficiencyEER
+End If
+
+case KWperTon:
+if Fd06c_EfficiencyKWperTon and Fd07c_EfficiencyKWperTon != BlankGrayedOut
+Fd06c_EfficiencyKWperTon LTE Fd07c_EfficiencyKWperTon
+End If
+End Switch
+
+Switch (Fd08d_EfficiencyType)
+case EER_IPLV:
+If Fd06d_EfficiencyEER_IPLV and Fd07d_EfficiencyEER_IPLV != BlanGrayedOut
+Fd06d_EfficiencyEER_IPLV  GTE Fd07d_EfficiencyEER_IPLV
+End If
+
+case kWperTon_IPLV:
+If Fd06d_EfficiencyKWperTon_IPLV and Fd07d_EfficiencyKWperTon_IPLV != BlanGrayedOut
+Fd06d_EfficiencyKWperTon_IPLV LTE Fd07d_EfficiencyKWperTon_IPLV
 End If
 End Switch
 End If 
-End If 
- 
+End If
+
 Condition 6
 If TableHeatRejection IsPresent  Then for every row 
 any field in range  Fe01 - Fe12 != BlankGrayedOut has data And 
@@ -2653,53 +2674,57 @@ End If</xsd:documentation>
                                     <xsd:element name="F02_HvacSystemType" type="hvac:HvacSystemType" >
                                        <xsd:annotation>
                                           <xsd:documentation source="FieldText">Equipment Category per Tables 110.2, [d:t24refnolink/]140.4(a)2 and 170.2(c)3aii</xsd:documentation>
-                                          <xsd:documentation source="CalculationsAndRules">If Fscs04_NotApplicableMessage Or Fscs05_NotApplicableMessage Or Fscs06_NotApplicableMessage IsPresent
+                                          <xsd:documentation source="CalculationsAndRules">
+If A08_ProjectScopeNR == ExistingAdditionAndAlteration Or ExistingAlteration
+   List all values
+Else If Fscs04_NotApplicableMessage Or Fscs05_NotApplicableMessage Or Fscs06_NotApplicableMessage IsPresent
 Or If Fscs06_HeatRecovery == true
-User selects for full list of equipment categories
+   User selects for full list of equipment categories
 Else If Fscs03_SystemZoning == SingleDwellingUnit
-If A02_ClimateZoneNumber == InRange(2,15)
-List UnitaryHeatPumps, UnitaryHeatPumpsNoElectR, UnitaryCondensersAC, UnitaryCondensersAC_NoElectR, PTAC_PTHP, SPV_ACHP, VariableRefrigerantFlow, VariableRefrigerantFlowHeatRecovery, CeilingCRAC, ComputerRoomAC, HeatPumpAC, RoomAC_HP, DedicatedOAS
-Else If A02_ClimateZoneNumber == 1 Or 16
-List HeatPumpDualFuel
+   If A02_ClimateZoneNumber == InRange(2,15)
+      List UnitaryHeatPumps, UnitaryHeatPumpsNoElectR, UnitaryCondensersAC, UnitaryCondensersAC_NoElectR, PTAC_PTHP, SPV_ACHP, VariableRefrigerantFlow, VariableRefrigerantFlowHeatRecovery, CeilingCRAC, ComputerRoomAC, HeatPumpAC, RoomAC_HP, DedicatedOAS
+   Else If A02_ClimateZoneNumber == 1 Or 16
+         List HeatPumpDualFuel
 End If
 Else If Fscs03_SystemZoning == SingleZone
-If Fscs05_WholeBuildingOccupancy == GroceryStoreBuilding Or RetailBuilding
-If F09_CoolingRatedCapacity IsPresent And LTE 65 And A02_ClimateZoneNumber == 1 Or 16
-List FurnaceAC
-Else If F09_CoolingRatedCapacity IsPresent And GT 65 And LT 240 And A02_ClimateZoneNumber == 1 Or 16
-List HeatPumpDualFuel
-Else If F09_CoolingRatedCapacity IsPresent And LTE 240 And A02_ClimateZoneNumber == InRange(2,15)
-List UnitaryHeatPumps, UnitaryHeatPumpsNoElectR, UnitaryCondensersAC, UnitaryCondensersAC_NoElectR, PTAC_PTHP, SPV_ACHP, VariableRefrigerantFlow, VariableRefrigerantFlowHeatRecovery, CeilingCRAC, ComputerRoomAC, HeatPumpAC, RoomAC_HP, DedicatedOASElse
-Else
-List all values
+   If Fscs05_WholeBuildingOccupancy == GroceryStoreBuilding Or RetailBuilding
+      If F09_CoolingRatedCapacity IsPresent And LTE 65 And A02_ClimateZoneNumber == 1 Or 16
+         List FurnaceAC
+   Else If F09_CoolingRatedCapacity IsPresent And GT 65 And LT 240 And A02_ClimateZoneNumber == 1 Or 16
+         List HeatPumpDualFuel
+   Else If F09_CoolingRatedCapacity IsPresent And LTE 240 And A02_ClimateZoneNumber == InRange(2,15)
+         List UnitaryHeatPumps, UnitaryHeatPumpsNoElectR, UnitaryCondensersAC, UnitaryCondensersAC_NoElectR, PTAC_PTHP, SPV_ACHP, VariableRefrigerantFlow, VariableRefrigerantFlowHeatRecovery, CeilingCRAC, ComputerRoomAC, HeatPumpAC, RoomAC_HP, DedicatedOASElse
+   Else
+      List all values
 End If
 Else If Fscs05_WholeBuildingOccupancy == SchoolBuilding
-If F09_CoolingRatedCapacity IsPresent And LTE 240
-If A02_ClimateZoneNumber == InRange(2,15)
-List UnitaryHeatPumps, UnitaryHeatPumpsNoElectR, UnitaryCondensersAC, UnitaryCondensersAC_NoElectR, PTAC_PTHP, SPV_ACHP, VariableRefrigerantFlow, VariableRefrigerantFlowHeatRecovery, CeilingCRAC, ComputerRoomAC, HeatPumpAC, RoomAC_HP, DedicatedOASElse If A02_ClimateZoneNumber == 1 Or 16
-Else If A02_ClimateZoneNumber == 1 Or 16
-List HeatPumpDualFuel
-End If
-Else
-List all values
+   If F09_CoolingRatedCapacity IsPresent And LTE 240
+      If A02_ClimateZoneNumber == InRange(2,15)
+         List UnitaryHeatPumps, UnitaryHeatPumpsNoElectR, UnitaryCondensersAC, UnitaryCondensersAC_NoElectR, PTAC_PTHP, SPV_ACHP, VariableRefrigerantFlow, VariableRefrigerantFlowHeatRecovery, CeilingCRAC, ComputerRoomAC, HeatPumpAC, RoomAC_HP, DedicatedOASElse If A02_ClimateZoneNumber == 1 Or 16
+      Else If A02_ClimateZoneNumber == 1 Or 16
+         List HeatPumpDualFuel
+   End If
+   Else
+      List all values
 End If
 Else If Fscs05_WholeBuildingOccupancy == OfficeBuilding Or FinancialInstitutionBuilding Or LibraryBuilding
-If F09_CoolingRatedCapacity IsPresent And LTE 65 And A02_ClimateZoneNumber == 16
-List FurnaceAC
-Else If F09_CoolingRatedCapacity IsPresent And GT 65 And LT 240 And 02_ClimateZoneNumber == 16
-List HeatPumpDualFuel
-Else If F09_CoolingRatedCapacity IsPresent And LTE 240 And A02_ClimateZoneNumber == InRange(1,15)
-List UnitaryHeatPumps, UnitaryHeatPumpsNoElectR, UnitaryCondensersAC, UnitaryCondensersAC_NoElectR, PTAC_PTHP, SPV_ACHP, VariableRefrigerantFlow, VariableRefrigerantFlowHeatRecovery, CeilingCRAC, ComputerRoomAC, HeatPumpAC, RoomAC_HP, DedicatedOASElse
-Else
-List all values
+   If F09_CoolingRatedCapacity IsPresent And LTE 65 And A02_ClimateZoneNumber == 16
+      List FurnaceAC
+   Else If F09_CoolingRatedCapacity IsPresent And GT 65 And LT 240 And 02_ClimateZoneNumber == 16
+      List HeatPumpDualFuel
+   Else If F09_CoolingRatedCapacity IsPresent And LTE 240 And A02_ClimateZoneNumber == InRange(1,15)
+      List UnitaryHeatPumps, UnitaryHeatPumpsNoElectR, UnitaryCondensersAC, UnitaryCondensersAC_NoElectR, PTAC_PTHP, SPV_ACHP, VariableRefrigerantFlow, VariableRefrigerantFlowHeatRecovery, CeilingCRAC, ComputerRoomAC, HeatPumpAC, RoomAC_HP, DedicatedOASElse
+   Else
+      List all values
 End If
-Else If Fscs05_WholeBuildingOccupancy == Warehouse And F09_CoolingRatedCapacity IsPresent And LTE 240
-List UnitaryHeatPumps, UnitaryHeatPumpsNoElectR, UnitaryCondensersAC, UnitaryCondensersAC_NoElectR, PTAC_PTHP, SPV_ACHP, VariableRefrigerantFlow, VariableRefrigerantFlowHeatRecovery, CeilingCRAC, ComputerRoomAC, HeatPumpAC, RoomAC_HP, DedicatedOASElse
-Else
-List all values
+Else If Fscs05_WholeBuildingOccupancy == Warehouse 
+   If F09_CoolingRatedCapacity IsPresent And LTE 240
+      List UnitaryHeatPumps, UnitaryHeatPumpsNoElectR, UnitaryCondensersAC, UnitaryCondensersAC_NoElectR, PTAC_PTHP, SPV_ACHP, VariableRefrigerantFlow, VariableRefrigerantFlowHeatRecovery, CeilingCRAC, ComputerRoomAC, HeatPumpAC, RoomAC_HP, DedicatedOASElse
+   Else
+      List all values
 End If
 Else
-List all values
+   List all values
 End If</xsd:documentation>
                                        </xsd:annotation>
                                     </xsd:element>
@@ -8910,7 +8935,7 @@ End Switch</xsd:documentation>
                                                                                              </xsd:element>
                                                                                              <xsd:element name="H07exhaust_FanDeviceAllowance" type="comp:FanDeviceAllowance" >
                                                                                                 <xsd:annotation>
-                                                                                                   <xsd:documentation source="FieldText">Component Allowance</xsd:documentation>
+                                                                                                   <xsd:documentation source="FieldText">Component Allowance (watt/cfm)</xsd:documentation>
                                                                                                    <xsd:documentation source="CalculationsAndRules">If H02_FanFunction != Supply use this choice
  
  Switch (H04_FanPowerAllowanceDevice)
@@ -9337,7 +9362,7 @@ result = BlankGrayedOut</xsd:documentation>
                                                                <xsd:choice maxOccurs="1">
                                                                   <xsd:element name="H11_FanPower" type="hvac:FanPower" >
                                                                      <xsd:annotation>
-                                                                        <xsd:documentation source="FieldText">Design Electrical Input Power (kW)</xsd:documentation>
+                                                                        <xsd:documentation source="FieldText">Fan Electrical Input Power (kW)</xsd:documentation>
                                                                         <xsd:documentation source="CalculationsAndRules">If H09_FanInputPowerMethod == Manufacturer
 User input
 Else
@@ -9481,7 +9506,7 @@ End If</xsd:documentation>
                                     <xsd:choice maxOccurs="1">
                                        <xsd:element name="H12a_SupplyFanBaseAllowance" type="comp:FanSystemPowerAllowance" >
                                           <xsd:annotation>
-                                             <xsd:documentation source="FieldText">Supply Fan Base Allowance (kW)</xsd:documentation>
+                                             <xsd:documentation source="FieldText">Supply Fan Base Allowance (watt/cfm)</xsd:documentation>
                                              <xsd:documentation source="CalculationsAndRules">Calculated value:
 SupplyFanBaseAllowance is assigned as follows:
 If H02_FanFunction == Supply Is Not Present in TableFanSystems Row
@@ -9553,7 +9578,7 @@ End If</xsd:documentation>
                                     <xsd:choice maxOccurs="1">
                                        <xsd:element name="H12b_ExhaustFanBaseAllowance" type="comp:FanSystemPowerAllowance" >
                                           <xsd:annotation>
-                                             <xsd:documentation source="FieldText">Exhuast/Return/Relief/Transfer Fan Base Allowance(kW)</xsd:documentation>
+                                             <xsd:documentation source="FieldText">Exhuast/Return/Relief/Transfer Fan Base Allowance(watt/cfm)</xsd:documentation>
                                              <xsd:documentation source="CalculationsAndRules">Calculated value:
 ExhaustFanBaseAllowance is assigned as follows:
 If H02_FanFunction == Exhaust Or Relief Or Return Or Transfer Is Not Present in TableFanSystems Row
@@ -9643,7 +9668,7 @@ End If</xsd:documentation>
                                     <xsd:choice maxOccurs="1">
                                        <xsd:element name="H13_FanSystemInputPower" type="hvac:FanSystemInputPower" >
                                           <xsd:annotation>
-                                             <xsd:documentation source="FieldText">Fan System Electrical Output (kW)</xsd:documentation>
+                                             <xsd:documentation source="FieldText">Fan System Electrical Input Power (kW)</xsd:documentation>
                                              <xsd:documentation source="CalculationsAndRules">Calculated value: result = for  fans in system Sum All (H03_FanCount x H11_FanPower)</xsd:documentation>
                                           </xsd:annotation>
                                        </xsd:element>
@@ -10026,7 +10051,7 @@ End If</xsd:documentation>
                                        <xsd:annotation>
                                           <xsd:documentation source="FieldText">% Outdoor Air at Full Design Airflow</xsd:documentation>
                                           <xsd:documentation source="CalculationsAndRules">Calculated field: 
-result =  Hexhaust05_OutdoorAirflow / Hexhaust04_AirflowDesignRate </xsd:documentation>
+result =  (Hexhaust05_OutdoorAirflow / Hexhaust04_AirflowDesignRate) x 100 </xsd:documentation>
                                        </xsd:annotation>
                                     </xsd:element>
                                     <xsd:element name="Hexhaust07_HeatRecoveryExemptions" type="comp:HeatRecoveryExemptions" >
@@ -13491,7 +13516,15 @@ End If</xsd:documentation>
                      <xsd:annotation>
                         <xsd:documentation source="FieldText">Form/Title</xsd:documentation>
                         <xsd:documentation source="AdditionalRequirements">NRCA-MCH-03-A - Constant Volume Single Zone HVAC  NOTE: This form does not automatically move to "Yes'.  If Constant Volume Single Zone HVAC Systems are included in the scope, permit applicant should move this form to "Yes".</xsd:documentation>
-                        <xsd:documentation source="CalculationsAndRules">Calculated field:Boolean values with default result = false;</xsd:documentation>
+                        <xsd:documentation source="CalculationsAndRules">
+                           Nrca02_RequireNRCAMch03A = True If
+                              I02_SystemZoning == SingleZone
+                              And
+                              I.04 == SetbackThermostat Or SetbackPlusDRR
+                              And
+                              A03All_WholeBuildingOccupancy != HospitalBuilding
+                           Else Nrca02_RequireNRCAMch03A = False
+                        </xsd:documentation>
                      </xsd:annotation>
                   </xsd:element>
                   <xsd:element name="Nrca02_SystemFieldVerified" type="comp:SystemFieldVerified"  minOccurs="0" maxOccurs="unbounded">
@@ -13731,10 +13764,11 @@ End If</xsd:documentation>
                      <xsd:annotation>
                         <xsd:documentation source="FieldText">Form/Title</xsd:documentation>
                         <xsd:documentation source="AdditionalRequirements">NRCA-MCH-11-A Automatic Demand Shed Controls</xsd:documentation>
-                        <xsd:documentation source="CalculationsAndRules">Calculated field:Boolean values with default result = false; 
- 
- If I02_SystemZoning == MultiZoneDDC result = true display term selected Yes radio button
-End If</xsd:documentation>
+                        <xsd:documentation source="CalculationsAndRules">
+                           Nrca10_RequireNRCAMch11A = True if 
+                              I04_ThermostatType == EnergyManagementSystem
+                           Else Nrca10_RequireNRCAMch11A = False
+                        </xsd:documentation>
                      </xsd:annotation>
                   </xsd:element>
                   <xsd:element name="Nrca10_SystemFieldVerified" type="comp:SystemFieldVerified"  minOccurs="0" maxOccurs="unbounded">

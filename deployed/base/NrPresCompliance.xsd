@@ -5671,6 +5671,7 @@ Builders, Manufacturers, And Suppliers</xsd:documentation>
             <dtyp:displayterm value="ProjectExemptUtilMeterSysB">Table B indicates the project is exempt from 
                <d:t24refnolink/>130.5(a) Service Electrical Metering requirements because the utility company has provided the project a metering system that indicates instantaneous kW demand and kWh for a utility-defined period.</dtyp:displayterm>
             <dtyp:displayterm value="UserChangedSelectionInCI">Selections made in Certificates of Installation Table  have been changed by the permit applicant.  See Table E. Additional Remarks for permit applicant's explanation.</dtyp:displayterm>
+            <dtyp:displayterm value="UserChangedSelectionInCA">Selections made in the Certificates of Acceptance table have been changed by the permit applicant.  See Table E. Additional Remarks for permit applicant's explanation.</dtyp:displayterm>
          </xsd:appinfo>
       </xsd:annotation>
       <xsd:restriction base="dtyp:EnumerationConstant">
@@ -5680,6 +5681,7 @@ Builders, Manufacturers, And Suppliers</xsd:documentation>
          <xsd:enumeration value="ProjectExemptElecCode517B"/>
          <xsd:enumeration value="ProjectExemptUtilMeterSysB"/>
          <xsd:enumeration value="UserChangedSelectionInCI"/>
+         <xsd:enumeration value="UserChangedSelectionInCA"/>
       </xsd:restriction>
    </xsd:simpleType>
    <xsd:simpleType name="ExceptionalConditionMessageCCENVE">
@@ -6302,7 +6304,7 @@ Builders, Manufacturers, And Suppliers</xsd:documentation>
       <xsd:annotation>
          <xsd:documentation>Units: W per ft3 per min</xsd:documentation>
       </xsd:annotation>
-      <xsd:restriction base="dtyp:Decimal"/>
+      <xsd:restriction base="dtyp:Decimal3Places"/>
    </xsd:simpleType>
    <xsd:simpleType name="FanEfficacyRequired">
       <xsd:annotation>
@@ -6353,8 +6355,8 @@ Builders, Manufacturers, And Suppliers</xsd:documentation>
       <xsd:annotation>
          <xsd:appinfo source="displayterm">
             <dtyp:displayterm value="Manufacturer">Manufacturer provided</dtyp:displayterm>
-            <dtyp:displayterm value="Table140_4D">Default per Table 140.4-D</dtyp:displayterm>
-            <dtyp:displayterm value="Table140_4DVarSpeed">Default per Table 140.4-D Variable Speed Drive</dtyp:displayterm>
+            <dtyp:displayterm value="Table140_4D">Default per Table 140.4-D/141.0-D</dtyp:displayterm>
+            <dtyp:displayterm value="Table140_4DVarSpeed">Default per Table 140.4-D/141.0-D Variable Speed Drive</dtyp:displayterm>
          </xsd:appinfo>
       </xsd:annotation>
       <xsd:restriction base="dtyp:EnumerationConstant">
@@ -6418,10 +6420,10 @@ Builders, Manufacturers, And Suppliers</xsd:documentation>
                <d:gt/> MERV 16 or HEPA filter</dtyp:displayterm>
             <dtyp:displayterm value="NoDevice">None used</dtyp:displayterm>
             <dtyp:displayterm value="PressureMaintained">Fully ducted, or Systems that maintain pressure differential between rooms</dtyp:displayterm>
-            <dtyp:displayterm value="ReplaceReturnExhaust">Exhaust/Relief/Return/Transfer Fan System</dtyp:displayterm>
-            <dtyp:displayterm value="ReplaceReturnExhaustAdapterCurb">Exhaust/Relief/Return/Transfer In-Unit with Adapter Curb</dtyp:displayterm>
-            <dtyp:displayterm value="ReplaceSupply">Supply Fan System</dtyp:displayterm>
-            <dtyp:displayterm value="ReplaceSupplyAdapterCurb">Supply Fan In-Unit with Adapter Curb</dtyp:displayterm>
+            <dtyp:displayterm value="ReplaceReturnExhaust">Altered:Exhaust/Relief/Return/Transfer Fan System</dtyp:displayterm>
+            <dtyp:displayterm value="ReplaceReturnExhaustAdapterCurb">Altered:Exhaust/Relief/Return/Transfer In-Unit with Adapter Curb</dtyp:displayterm>
+            <dtyp:displayterm value="ReplaceSupply">Altered:Supply Fan System</dtyp:displayterm>
+            <dtyp:displayterm value="ReplaceSupplyAdapterCurb">Altered:Supply Fan In-Unit with Adapter Curb</dtyp:displayterm>
             <dtyp:displayterm value="SoundAttenuation">Sound Attenuation Section</dtyp:displayterm>
             <dtyp:displayterm value="TermUnitFanLT1kW">System feeds a terminal unit with a fan with electrical input power 
                <d:lt/> 1kW</dtyp:displayterm>
@@ -8707,6 +8709,8 @@ Builders, Manufacturers, And Suppliers</xsd:documentation>
                <d:lt/> 6200 lumens</dtyp:displayterm>
             <dtyp:displayterm value="CutoffLtgZone0">NA: Ltg Zone LZ-0</dtyp:displayterm>
             <dtyp:displayterm value="NotPermittedNA">NA: Not permitted by H&amp;amp;LS</dtyp:displayterm>
+            <dtyp:displayterm value="Part11">NA: Exception in Section 5.106.8 of Part 11</dtyp:displayterm>
+            <dtyp:displayterm value="Per1407">NA: Exception in Section 140.7(a)</dtyp:displayterm>
             <dtyp:displayterm value="ReplacePoleMountNA">NA: Replacement of pole-mounted per 
                <d:t24refnolink/>130.2(b) /
                <d:t24refnolink/>160.5(c)</dtyp:displayterm>
@@ -8722,6 +8726,8 @@ Builders, Manufacturers, And Suppliers</xsd:documentation>
          <xsd:enumeration value="CutoffLT6200Lumens"/>
          <xsd:enumeration value="CutoffLtgZone0"/>
          <xsd:enumeration value="NotPermittedNA"/>
+         <xsd:enumeration value="Part11"/>
+         <xsd:enumeration value="Per1407"/>
          <xsd:enumeration value="ReplacePoleMountNA"/>
          <xsd:enumeration value="ResControlledNA"/>
          <xsd:enumeration value="RightOfWayNA"/>
@@ -9212,7 +9218,7 @@ Builders, Manufacturers, And Suppliers</xsd:documentation>
             <dtyp:displayterm value="StairsRampNA">NA: Stairs Wheelchair Lift/Ramp Lighting</dtyp:displayterm>
             <dtyp:displayterm value="TempLightNA">NA: Temporary Lighting</dtyp:displayterm>
             <dtyp:displayterm value="ThemeParkNA">NA: Theme Park Special Effect Lighting</dtyp:displayterm>
-            <dtyp:displayterm value="TimeOutNA">NA: H&amp;amp;LS: time-out period longer than 15 minutes/ dimming level above 50 percent</dtyp:displayterm>
+            <dtyp:displayterm value="TimeOutNA">H&amp;amp;LS: time-out period longer than 15 minutes/ dimming level above 50 percent</dtyp:displayterm>
             <dtyp:displayterm value="TunnelsNA">NA: Lighting in Tunnels</dtyp:displayterm>
          </xsd:appinfo>
       </xsd:annotation>
