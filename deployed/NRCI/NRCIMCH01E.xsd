@@ -1870,7 +1870,11 @@ End If</xsd:documentation>
                         </xsd:documentation>
                         <xsd:documentation source="CalculationsAndRules">This table is required 
 CC-MCH parent And TableDFHP IsPresent
-Or CC-PRF parent And TableDFHP IsPresent</xsd:documentation>
+Or CC-PRF parent And TableDFHP IsPresent
+
+If TableDFHP
+D03_ExceptionalConditionMessageCCMCHE += SingleEfficiencyValueDisplayedDfhp
+End If</xsd:documentation>
                      </xsd:annotation>
                      <xsd:complexType>
                         <xsd:sequence>
@@ -5274,16 +5278,21 @@ End If</xsd:documentation>
                                                          </xsd:element>
                                                       </xsd:choice>
                                                       <xsd:choice maxOccurs="1">
-                                                         <xsd:element name="Eheat04cc_ElectricResistanceHeatingCapacity" type="hvac:ElectricResistanceHeatingCapacity">
+                                                         <xsd:element name="Eheat04cc_ElectricResistanceHeatingCapacity">
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Output Capacity (kW)</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If CC-MCH parent 
 result = Ff02_ElectricResistanceHeatingCapacity
+Else If CC-PRF parent
+result = SeePlans
 End If</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
                                                                   <dtyp:srcSchema form="CCMCH01E" usage="copy">Ff03_ElectricResistanceHeatingCapacity</dtyp:srcSchema>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
+                                                            <xsd:simpleType>
+                                                               <xsd:union memberTypes="hvac:ElectricResistanceHeatingCapacity comp:SeePlansMessage"/>
+                                                            </xsd:simpleType>
                                                          </xsd:element>
                                                          <xsd:element name="Eheat04cc_NotApplicableMessage">
                                                             <xsd:annotation>
@@ -5895,7 +5904,7 @@ End If</xsd:documentation>
                                                             <xsd:documentation source="CalculationsAndRules">User selects true if installed is the same as value on in the Top cell Or false if installed is different than the value in Top cell</xsd:documentation>
                                                          </xsd:annotation>
                                                       </xsd:element>
-                                                      <xsd:element name="Fan02cc_FanCount" type="hvac:FanCount">
+                                                      <xsd:element name="Fan02cc_FanCount">
                                                          <xsd:annotation>
                                                             <xsd:documentation source="FieldText">Quantity</xsd:documentation>
                                                             <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
@@ -5905,13 +5914,16 @@ If Fan01cc_FanSystemName is from Fan01_HvacSystemName
 result = Fan02_FanCount
 Else If Fan01cc_FanSystemName is from FanExh01_HvacSystemName
 result = FanExh03_FanCount
-End If</xsd:documentation>
+Else result = SeePlans</xsd:documentation>
                                                             <xsd:appinfo source="CIsrc">
                                                                <dtyp:srcSchema form="CCMCH01E" usage="copy">H03_FanCount</dtyp:srcSchema>
                                                                <dtyp:srcSchema form="CCPRF01E" usage="copy">Fan02_FanCount</dtyp:srcSchema>
                                                                <dtyp:srcSchema form="CCPRF01E" usage="copy">FanExh03_FanCount</dtyp:srcSchema>
                                                             </xsd:appinfo>
                                                          </xsd:annotation>
+                                                         <xsd:simpleType>
+                                                            <xsd:union memberTypes="hvac:FanCount comp:SeePlansMessage"/>
+                                                         </xsd:simpleType>
                                                       </xsd:element>
                                                       <xsd:element name="Fan02_FanCount" type="hvac:FanCount">
                                                          <xsd:annotation>
@@ -5924,7 +5936,7 @@ End If</xsd:documentation>
                                                          </xsd:annotation>
                                                       </xsd:element>
                                                       <xsd:choice maxOccurs="1">
-                                                         <xsd:element name="Fan03cc_FanFunction" type="hvac:FanFunction">
+                                                         <xsd:element name="Fan03cc_FanFunction">
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Fan Function</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
@@ -5935,10 +5947,10 @@ End If</xsd:documentation>
    result = Supply
    Else If Fan09_FanFlowCapacity IsPresent
    result = Return
-   End If
+   Else result = SeePlans
    Else If Fan01cc_FanSystemName is from FanExh01_HvacSystemName
    result = Exhaust
-   End If
+   Else result = SeePlans
    End If</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
                                                                   <dtyp:srcSchema form="CCMCH01E" usage="copy">H02_FanFunction</dtyp:srcSchema>
@@ -5947,6 +5959,9 @@ End If</xsd:documentation>
                                                                   <dtyp:srcSchema form="CCPRF01E" usage="reference">FanExh01_HvacSystemName</dtyp:srcSchema>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
+                                                            <xsd:simpleType>
+                                                               <xsd:union memberTypes="hvac:FanFunction comp:SeePlansMessage"/>
+                                                            </xsd:simpleType>
                                                          </xsd:element>
                                                          <xsd:element name="Fan03cc_NotApplicableMessage">
                                                             <xsd:annotation>
@@ -5996,7 +6011,7 @@ End If</xsd:documentation>
                                                          </xsd:element>
                                                       </xsd:choice>
                                                       <xsd:choice maxOccurs="1">
-                                                         <xsd:element name="Fan04cc_FanSystemEconomizerType" type="hvac:FanSystemEconomizerType">
+                                                         <xsd:element name="Fan04cc_FanSystemEconomizerType">
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Economizer</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If CC-MCH parent And If H00h_FanSystemEconomizerType  IsPresent
@@ -6008,13 +6023,16 @@ Else If HvacDry09_EconomizerControlMethod == DifferentialDryBulb Or Differential
 result = DifferentialTemperature
 Else If HvacDry09_EconomizerControlMethod == FixedDryBulb
 result = FixedTemperature
-End If
+Else result = SeePlans
 End If</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
                                                                   <dtyp:srcSchema form="CCMCH01E" usage="copy">H00h_FanSystemEconomizerType</dtyp:srcSchema>
                                                                   <dtyp:srcSchema form="CCPRF01E" usage="reference">HvacDry09_EconomizerControlMethod</dtyp:srcSchema>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
+                                                            <xsd:simpleType>
+                                                               <xsd:union memberTypes="hvac:FanSystemEconomizerType comp:SeePlansMessage"/>
+                                                            </xsd:simpleType>
                                                          </xsd:element>
                                                          <xsd:element name="Fan04cc_FanSystemEconomizerException" type="comp:FanSystemEconomizerException">
                                                             <xsd:annotation>
@@ -6109,7 +6127,7 @@ End If</xsd:documentation>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
                                                          </xsd:element>
-                                                         <xsd:element name="Fan05cc_FanPowerPerFlow" type="hvac:FanPowerPerFlow">
+                                                         <xsd:element name="Fan05cc_FanPowerPerFlow">
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Fan Electrical Input Power (kW)</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If CC-PRF parent 
@@ -6118,13 +6136,16 @@ If Fan05_FanPowerPerFlow  IsPresent
 result = Fan05_FanPowerPerFlow
 Else If Fan10_FanPowerPerFlow  IsPresent
 result = Fan10_FanPowerPerFlow
-End If
+Else result = SeePlans
 End If</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
                                                                   <dtyp:srcSchema form="CCPRF01E" usage="copy">Fan05_FanPowerPerFlow</dtyp:srcSchema>
                                                                   <dtyp:srcSchema form="CCPRF01E" usage="copy">Fan10_FanPowerPerFlow</dtyp:srcSchema>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
+                                                            <xsd:simpleType>
+                                                               <xsd:union memberTypes="hvac:FanPowerPerFlow comp:SeePlansMessage"/>
+                                                            </xsd:simpleType>
                                                          </xsd:element>
                                                          <xsd:element name="Fan05cc_NotApplicableMessage">
                                                             <xsd:annotation>
@@ -6248,6 +6269,14 @@ End If</xsd:documentation>
                            </xsd:element>
                         </xsd:sequence>
                      </xsd:complexType>
+                  </xsd:element>
+                  <xsd:element name="FanFootnote1" minOccurs="0">
+                     <xsd:annotation>
+                        <xsd:documentation source="FieldText"/>
+                        <xsd:documentation source="AdditionalRequirements">
+                           <d:i><d:sup>1</d:sup> FOOTNOTES: If only economizer types are showing in the table above, please verify the equipment that includes the economizer by reviewing planset equipment schedule.</d:i>
+                        </xsd:documentation>
+                     </xsd:annotation>
                   </xsd:element>
                   <xsd:element name="TableFanDOAS" minOccurs="0">
                      <xsd:annotation>
@@ -7983,21 +8012,24 @@ End If</xsd:documentation>
                            <xsd:element name="Row" minOccurs="1" maxOccurs="unbounded">
                               <xsd:complexType>
                                  <xsd:sequence>
-                                    <xsd:element name="Ventnr01cc_VentilationSystemName" type="hvac:VentilationSystemName">
+                                    <xsd:element name="Ventnr01cc_VentilationSystemName">
                                        <xsd:annotation>
                                           <xsd:documentation source="FieldText">System Name</xsd:documentation>
                                           <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
 result = J04_VentilationSystemName
 Else If CC-PRF parent
-result = Vent01_ThermalZoneName
+result = BlankGrayedOut
 End If
  
 The result is displayed in both the Per C of C and As-built conditions</xsd:documentation>
                                           <xsd:appinfo source="CIsrc">
                                              <dtyp:srcSchema form="CCMCH01E" usage="copy">J04_VentilationSystemName</dtyp:srcSchema>
-                                             <dtyp:srcSchema form="CCPRF01E" usage="copy">Vent01_ThermalZoneName</dtyp:srcSchema>
+                                             <dtyp:srcSchema form="CCPRF01E" usage="copy">BlankGrayedOut</dtyp:srcSchema>
                                           </xsd:appinfo>
                                        </xsd:annotation>
+                                       <xsd:simpleType>
+                                          <xsd:union memberTypes="hvac:VentilationSystemName comp:NotApplicableMessage"/>
+                                       </xsd:simpleType>
                                     </xsd:element>
                                     <xsd:element name="Ventnr01_InMyScope" type="comp:InMyScope">
                                        <xsd:annotation>
