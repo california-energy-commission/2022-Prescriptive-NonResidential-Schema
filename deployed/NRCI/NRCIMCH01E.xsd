@@ -1365,6 +1365,7 @@ result = Fb07_EfficiencyEER
 End If
 Else If CC-PRF parent and HvacDry08b_EfficiencyEER IsPresent
 result = CC-PRF HvacDry08b_EfficiencyEER
+Else result = SeePlans
 End If</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
                                                                   <dtyp:srcSchema form="CCMCH01E" usage="copy">Fa09_EfficiencyEER</dtyp:srcSchema>
@@ -7477,7 +7478,7 @@ result = I04_ThermostatType
 Else If CC-PRF parent
 If HvacSpec04_HvacControls IsPresent And includes DDC Or DDC_DualMaxReheat
 result = EnergyManagementSystem
-End If 
+Else result = SeePlans
 End If</xsd:documentation>
                                                                <xsd:appinfo source="displayterm">
                                                                   <dtyp:displayterm value="EnergyManagementSystem">EMCS</dtyp:displayterm>
@@ -7488,12 +7489,16 @@ End If</xsd:documentation>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
                                                             <xsd:simpleType>
-                                                               <xsd:restriction base="hvac:ThermostatType">
-                                                                  <xsd:enumeration value="EnergyManagementSystem"/>
-                                                                  <xsd:enumeration value="EquipmentException"/>
-                                                                  <xsd:enumeration value="SetbackPlusDR"/>
-                                                                  <xsd:enumeration value="SetbackThermostat"/>
-                                                               </xsd:restriction>
+                                                               <xsd:union memberTypes="comp:SeePlansMessage">
+                                                                  <xsd:simpleType>
+                                                                     <xsd:restriction base="hvac:ThermostatType">
+                                                                        <xsd:enumeration value="EnergyManagementSystem"/>
+                                                                        <xsd:enumeration value="EquipmentException"/>
+                                                                        <xsd:enumeration value="SetbackPlusDR"/>
+                                                                        <xsd:enumeration value="SetbackThermostat"/>
+                                                                     </xsd:restriction>
+                                                                  </xsd:simpleType>
+                                                               </xsd:union>
                                                             </xsd:simpleType>
                                                          </xsd:element>
                                                          <xsd:element name="Ctrl02cc_NotApplicableMessage">
@@ -7556,7 +7561,7 @@ End If</xsd:documentation>
                                                          </xsd:element>
                                                       </xsd:choice>
                                                       <xsd:choice maxOccurs="1">
-                                                         <xsd:element name="Ctrl03cc_ControlSystemShutOff" type="hvac:ControlSystemShutOff">
+                                                         <xsd:element name="Ctrl03cc_ControlSystemShutOff">
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Shut-Off Controls</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
@@ -7564,7 +7569,7 @@ result = I05_ControlSystemShutOff
 Else If CC-PRF parent
 If HvacSpec04_HvacControls IsPresent And includes DDC Or DDC_DualMaxReheat
 result = EMCS
-End If 
+Else result = SeePlans
 End If</xsd:documentation>
                                                                <xsd:appinfo source="displayterm"/>
                                                                <xsd:appinfo source="CIsrc">
@@ -7572,6 +7577,9 @@ End If</xsd:documentation>
                                                                   <dtyp:srcSchema form="CCPRF01E" usage="reference">HvacSpec04_HvacControls</dtyp:srcSchema>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
+                                                            <xsd:simpleType>
+                                                               <xsd:union memberTypes="hvac:ControlSystemShutOff comp:SeePlansMessage"/>
+                                                            </xsd:simpleType>
                                                          </xsd:element>
                                                          <xsd:element name="Ctrl03cc_NotApplicableMessage">
                                                             <xsd:annotation>
@@ -7623,7 +7631,7 @@ End If</xsd:documentation>
                                                          </xsd:element>
                                                       </xsd:choice>
                                                       <xsd:choice maxOccurs="1">
-                                                         <xsd:element name="Ctrl04cc_ControlSystemZone" type="hvac:ControlSystemZone">
+                                                         <xsd:element name="Ctrl04cc_ControlSystemZone">
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Isolation Zone Controls</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
@@ -7631,13 +7639,16 @@ result = I06_ControlSystemZone
 Else If CC-PRF parent
 If HvacSpec04_HvacControls IsPresent And includes DDC Or DDC_DualMaxReheat
 result = EMCS
-End If 
+Else result = SeePlans
 End If</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
                                                                   <dtyp:srcSchema form="CCMCH01E" usage="copy">I06_ControlSystemZone</dtyp:srcSchema>
                                                                   <dtyp:srcSchema form="CCPRF01E" usage="reference">HvacSpec04_HvacControls</dtyp:srcSchema>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
+                                                            <xsd:simpleType>
+                                                               <xsd:union memberTypes="hvac:ControlSystemZone comp:SeePlansMessage"/>
+                                                            </xsd:simpleType>
                                                          </xsd:element>
                                                          <xsd:element name="Ctrl04cc_NotApplicableMessage">
                                                             <xsd:annotation>
@@ -7686,7 +7697,7 @@ End If</xsd:documentation>
                                                          </xsd:element>
                                                       </xsd:choice>
                                                       <xsd:choice maxOccurs="1">
-                                                         <xsd:element name="Ctrl05cc_ControlSystemDR" type="hvac:ControlSystemDR">
+                                                         <xsd:element name="Ctrl05cc_ControlSystemDR">
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Demand Response</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
@@ -7694,13 +7705,16 @@ result = I07_ControlSystemDR
 Else If CC-PRF parent
 If HvacSpec04_HvacControls IsPresent And includes DDC Or DDC_DualMaxReheat
 result = EMCS
-End If 
+Else result = SeePlans
 End If</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
                                                                   <dtyp:srcSchema form="CCMCH01E" usage="copy">I07_ControlSystemDR</dtyp:srcSchema>
                                                                   <dtyp:srcSchema form="CCPRF01E" usage="reference">HvacSpec04_HvacControls</dtyp:srcSchema>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
+                                                            <xsd:simpleType>
+                                                               <xsd:union memberTypes="hvac:ControlSystemDR comp:SeePlansMessage"/>
+                                                            </xsd:simpleType>
                                                          </xsd:element>
                                                          <xsd:element name="Ctrl05cc_NotApplicableMessage">
                                                             <xsd:annotation>
@@ -7749,7 +7763,7 @@ End If</xsd:documentation>
                                                          </xsd:element>
                                                       </xsd:choice>
                                                       <xsd:choice maxOccurs="1">
-                                                         <xsd:element name="Ctrl06cc_ControlSystemTempReset" type="hvac:ControlSystemTempReset">
+                                                         <xsd:element name="Ctrl06cc_ControlSystemTempReset">
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Supply Air Temp. Reset</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
@@ -7757,7 +7771,7 @@ result = I08_ControlSystemTempReset
 Else If CC-PRF parent
 If HvacSpec04_HvacControls IsPresent And includes SupplyAirTempControl Or WarmestZoneReset
 result = ResetIncluded
-End If
+Else result = SeePlans
 End If</xsd:documentation>
                                                                <xsd:appinfo source="displayterm">
                                                                   <dtyp:displayterm value="ResetIncluded">Provided</dtyp:displayterm>
@@ -7767,6 +7781,9 @@ End If</xsd:documentation>
                                                                   <dtyp:srcSchema form="CCPRF01E" usage="reference">HvacSpec04_HvacControls</dtyp:srcSchema>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
+                                                            <xsd:simpleType>
+                                                               <xsd:union memberTypes="hvac:ControlSystemTempReset comp:SeePlansMessage"/>
+                                                            </xsd:simpleType>
                                                          </xsd:element>
                                                          <xsd:element name="Ctrl06cc_NotApplicableMessage">
                                                             <xsd:annotation>
@@ -7828,13 +7845,16 @@ result = I09_ControlSystemWindows
 Else If CC-PRF parent
 If HvacSpec03_OperableWindowsHaveInterlock IsPresent And == true
 result = InterlockProvided
-End If
+Else result = SeePlans
 End If</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
                                                                   <dtyp:srcSchema form="CCMCH01E" usage="copy">I09_ControlSystemWindows</dtyp:srcSchema>
                                                                   <dtyp:srcSchema form="CCPRF01E" usage="reference">HvacSpec03_OperableWindowsHaveInterlock</dtyp:srcSchema>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
+                                                            <xsd:simpleType>
+                                                               <xsd:union memberTypes="hvac:ControlSystemWindows comp:SeePlansMessage"/>
+                                                            </xsd:simpleType>
                                                          </xsd:element>
                                                          <xsd:element name="Ctrl07cc_NotApplicableMessage">
                                                             <xsd:annotation>
@@ -7884,7 +7904,7 @@ End If</xsd:documentation>
                                                          </xsd:element>
                                                       </xsd:choice>
                                                       <xsd:choice maxOccurs="1">
-                                                         <xsd:element name="Ctrl08cc_ControlSystemDDC" type="hvac:ControlSystemDDC">
+                                                         <xsd:element name="Ctrl08cc_ControlSystemDDC">
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Direct Digital Control (DDC)</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
@@ -7892,12 +7912,16 @@ result = I10_ControlSystemDDC
 Else If CC-PRF parent
 If HvacSpec04_HvacControls IsPresent And includes DDC
 result = ProvidesDDC
+Else result = SeePlans
 End If</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
                                                                   <dtyp:srcSchema form="CCMCH01E" usage="copy">I10_ControlSystemDDC</dtyp:srcSchema>
                                                                   <dtyp:srcSchema form="CCPRF01E" usage="reference">HvacSpec04_HvacControls</dtyp:srcSchema>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
+                                                            <xsd:simpleType>
+                                                               <xsd:union memberTypes="hvac:ControlSystemDDC comp:SeePlansMessage"/>
+                                                            </xsd:simpleType>
                                                          </xsd:element>
                                                          <xsd:element name="Ctrl08cc_NotApplicableMessage">
                                                             <xsd:annotation>
