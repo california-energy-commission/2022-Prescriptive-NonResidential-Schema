@@ -5013,7 +5013,7 @@ End If</xsd:documentation>
                                                                <xsd:documentation source="FieldText">Insulation Location</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If FloorsMass04cc_InsulationPlacement IsPresent
 If Floors01_InstalledSameAsCC == true
-resut = FloorsMass04cc_InsulationPlacement 
+result = FloorsMass04cc_InsulationPlacement
 Else
 User selects from list
 End If
@@ -5039,7 +5039,7 @@ End If</xsd:documentation>
                                                                <xsd:documentation source="FieldText">Insulation Location</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If FloorsSlab04cc_InsulationPlacement IsPresent
 If Floors01_InstalledSameAsCC == true
-resut = FloorsSlab04cc_InsulationPlacement 
+result = FloorsSlab04cc_InsulationPlacement
 Else
 User selects from list
 End If
@@ -5057,7 +5057,7 @@ End If</xsd:documentation>
                                                                <xsd:documentation source="FieldText">Insulation Location</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If FloorsMass04cc_InsulationOther IsPresent
 If Floors01_InstalledSameAsCC == true
-resut = FloorsMass04cc_InsulationOther
+result = FloorsMass04cc_InsulationOther
 Else
 User enters value
 End If
@@ -5222,7 +5222,7 @@ End If</xsd:documentation>
                                                                <xsd:documentation source="FieldText">Core/Cavity  Insulation R-value</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If Floors05cc_CavityInsulationNR IsPresent
 If Floors01_InstalledSameAsCC == true
-resut = Floors05cc_CavityInsulationNR
+result = Floors05cc_CavityInsulationNR
 Else
 User selects from list
 End If
@@ -5246,7 +5246,7 @@ End If</xsd:documentation>
                                                                <xsd:documentation source="FieldText">Core/Cavity  Insulation R-value</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If Floors05cc_CavityInsulationOther IsPresent
 If Floors01_InstalledSameAsCC == true
-resut = Floors05cc_CavityInsulationOther
+result = Floors05cc_CavityInsulationOther
 Else
 User enters R-value number
 End If
@@ -5258,7 +5258,7 @@ End If</xsd:documentation>
                                                                <xsd:documentation source="FieldText">Core/Cavity  Insulation R-value</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If Floors05cc_CoreInsulation IsPresent
 If Floors01_InstalledSameAsCC == true
-resut = Floors05cc_CoreInsulation
+result = Floors05cc_CoreInsulation
 Else
 User selects from list
 End If
@@ -5278,7 +5278,7 @@ End If</xsd:documentation>
                                                                <xsd:documentation source="FieldText">Core/Cavity  Insulation R-value</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If Floors05cc_CoreInsulationOther IsPresent
 If Floors01_InstalledSameAsCC == true
-resut = Floors05cc_CoreInsulationOther
+result = Floors05cc_CoreInsulationOther
 Else
 Use enters the R-value number
 End If
@@ -5290,7 +5290,7 @@ End If</xsd:documentation>
                                                                <xsd:documentation source="FieldText">Core/Cavity  Insulation R-value</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If Floors05cc_CavityInsulation IsPresent
 If Floors01_InstalledSameAsCC == true
-resut = Floors05cc_CavityInsulation
+result = Floors05cc_CavityInsulation
 Else
 User enters R-value number
 End If
@@ -5301,7 +5301,7 @@ End If</xsd:documentation>
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Core/Cavity  Insulation R-value</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If Floors05cc_NotApplicableMessage IsPresent
-resut = Floors05cc_NotApplicableMessage 
+result = Floors05cc_NotApplicableMessage
 End If</xsd:documentation>
                                                             </xsd:annotation>
                                                             <xsd:simpleType>
@@ -5577,7 +5577,7 @@ End If
                                                                <xsd:documentation source="FieldText">Continuous Insulation R-value</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If FloorsFramed06cc_ContinuousInsulationNR IsPresent
 If Floors01_InstalledSameAsCC == true
-resut = FloorsFramed06cc_ContinuousInsulationNR
+result = FloorsFramed06cc_ContinuousInsulationNR
 Else
 User selects from list
 End If
@@ -5602,7 +5602,7 @@ End If
                                                                <xsd:documentation source="FieldText">Continuous Insulation R-value</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If FloorsFramed06cc_ContinuousInsulationOther IsPresent
 If Floors01_InstalledSameAsCC == true
-resut = FloorsFramed06cc_ContinuousInsulationOther
+result = FloorsFramed06cc_ContinuousInsulationOther
 Else
 User enters R-value number
 End If
@@ -5615,7 +5615,7 @@ End If
                                                                <xsd:documentation source="FieldText">Continuous Insulation R-value</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If FloorsSIPS06cc_ContinuousInsulationNR IsPresent
 If Floors01_InstalledSameAsCC == true
-resut = FloorsSIPS06cc_ContinuousInsulationNR
+result = FloorsSIPS06cc_ContinuousInsulationNR
 Else
 User selects from list
 End If
@@ -5639,7 +5639,7 @@ End If
                                                                <xsd:documentation source="FieldText">Continuous Insulation R-value</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If FloorsSIPS06cc_ContinuousInsulationOther IsPresent
 If Floors01_InstalledSameAsCC == true
-resut = FloorsSIPS06cc_ContinuousInsulationOther
+result = FloorsSIPS06cc_ContinuousInsulationOther
 Else
 User enters R-value number
 End If
@@ -5652,7 +5652,7 @@ End If
                                                                <xsd:documentation source="FieldText">Continuous Insulation R-value</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If FloorsMass06cc_ContinuousInsulationNR IsPresent
 If Floors01_InstalledSameAsCC == true
-resut = FloorsMass06cc_ContinuousInsulationNR
+result = FloorsMass06cc_ContinuousInsulationNR
 Else
 User selects from list
 End If
@@ -5680,7 +5680,7 @@ End If
                                                                <xsd:documentation source="FieldText">Continuous Insulation R-value</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If FloorsMass06cc_ContinuousInsulationOther IsPresent
 If Floors01_InstalledSameAsCC == true
-resut = FloorsMass06cc_ContinuousInsulationOther
+result = FloorsMass06cc_ContinuousInsulationOther
 Else
 User enters R-value number
 End If
