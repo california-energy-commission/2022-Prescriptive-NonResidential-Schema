@@ -3810,7 +3810,7 @@ End If</xsd:documentation>
                                                             <xsd:documentation source="CalculationsAndRules">User input</xsd:documentation>
                                                          </xsd:annotation>
                                                       </xsd:element>
-                                                      <xsd:element name="Chlr03cc_ChillerType"=>
+                                                      <xsd:element name="Chlr03cc_ChillerType">
                                                          <xsd:annotation>
                                                             <xsd:documentation source="FieldText">Equipment Type</xsd:documentation>
                                                             <xsd:documentation source="CalculationsAndRules">If CC-MCH parent and Fd02_ChillerType IsPresent
