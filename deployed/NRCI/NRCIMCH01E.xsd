@@ -407,9 +407,13 @@ End If</xsd:documentation>
                                        <xsd:annotation>
                                           <xsd:documentation source="FieldText">Name or Item Tag</xsd:documentation>
                                           <xsd:documentation source="CalculationsAndRules">If CC-MCH parent 
+If F01_HvacSystemName IsPresent
 result = CC-MCH F01_HvacSystemName
+Else result = BlankGrayedOut
 Else If CC-PRF parent
+If HvacDry01_HvacSystemName IsPresent
 result = CC-PRF HvacDry01_HvacSystemName
+Else result = BlankGrayedOut
 End If
  
 The result is displayed in both the Per CC and As-built conditions</xsd:documentation>
@@ -418,6 +422,9 @@ The result is displayed in both the Per CC and As-built conditions</xsd:document
                                              <dtyp:srcSchema form="CCPRF01E" usage="copy">HvacDry01_HvacSystemName</dtyp:srcSchema>
                                           </xsd:appinfo>
                                        </xsd:annotation>
+                                       <xsd:simpleType>
+                                          <xsd:union memberTypes="hvac:HvacSystemName comp:NotApplicableMessage"/>
+                                       </xsd:simpleType>
                                     </xsd:element>
                                     <xsd:element name="Dry01_InMyScope" type="comp:InMyScope">
                                        <xsd:annotation>
@@ -874,8 +881,10 @@ End If</xsd:documentation>
                                                          <xsd:element name="Dry04cc_HeatingRatedCapacity">
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Rated Output (kBtu/h)</xsd:documentation>
-                                                               <xsd:documentation source="CalculationsAndRules">If CC-MCH parent and F06_HeatingRatedCapacity IsPresent
-result = CC-MCH F06_HeatingRatedCapacity  
+                                                               <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
+If F06_HeatingRatedCapacity IsPresent
+result = CC-MCH F06_HeatingRatedCapacity
+Else result = SeePlans
 Else If CC-PRF parent and HvacDry04_HeatingDesignCapacity IsPresent 
 result = CC-PRF HvacDry04_HeatingDesignCapacity
 Else result == SeePlans
@@ -937,8 +946,10 @@ End If</xsd:documentation>
                                                          <xsd:element name="Dry05cc_HeatingSupplementalCapacity">
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Supplemental Heating Output (kBtu/h)</xsd:documentation>
-                                                               <xsd:documentation source="CalculationsAndRules">If CC-MCH parent and F07_HeatingSupplementalCapacity IsPresent
+                                                               <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
+If F07_HeatingSupplementalCapacity IsPresent
 result = CC-MCH F07_HeatingSupplementalCapacity
+Else result = SeePlans
 Else If CC-PRF parent and HvacDry05_HeatingSupplementalCapacity IsPresent
 result = CC-PRF HvacDry05_HeatingSupplementalCapacity
 Else result = SeePlans
@@ -1003,8 +1014,10 @@ End If</xsd:documentation>
                                                          <xsd:element name="Dry06cc_EfficiencyAFUE">
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Efficiency</xsd:documentation>
-                                                               <xsd:documentation source="CalculationsAndRules">If CC-MCH parent and Fa06_EfficiencyAFUE IsPresent
-result = C-MCH  Fa06_EfficiencyAFUE 
+                                                               <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
+If Fa06_EfficiencyAFUE IsPresent
+result = CC-MCH  Fa06_EfficiencyAFUE
+Else result = SeePlans
 Else If CC-PRF parent and HvacDry06b_EfficiencyAFUE IsPresent
 result = CC-PRF HvacDry06b_EfficiencyAFUE
 Else result = SeePlans
@@ -1182,9 +1195,10 @@ If Fa04_EfficiencyType IsPresent
 result = CC-MCH Fa04_EfficiencyType
 Else If Fb04_EfficiencyCOP IsPresent
 result = COP
-End If
+Else result = SeePlans
 Else If CC-PRF parent And HvacDry06a_EfficiencyType IsPresent
 result = CC-PRF HvacDry06a_EfficiencyType
+Else result = SeePlans
 End If</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
                                                                   <dtyp:srcSchema form="CCMCH01E" usage="reference">Fa04_EfficiencyType</dtyp:srcSchema>
@@ -1193,6 +1207,7 @@ End If</xsd:documentation>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
                                                             <xsd:simpleType>
+                                                               <xsd:union memberTypes="hvac:EfficiencyType comp:SeePlansMessage"/>
                                                                <xsd:restriction base="hvac:EfficiencyType">
                                                                   <xsd:enumeration value="AFUE"/>
                                                                   <xsd:enumeration value="CombustionEfficiency"/>
@@ -1268,19 +1283,23 @@ End If</xsd:documentation>
                                                          </xsd:annotation>
                                                       </xsd:element>
                                                       <xsd:choice maxOccurs="1">
-                                                         <xsd:element name="Dry08cc_CoolingRatedCapacity" type="hvac:CoolingRatedCapacity">
+                                                         <xsd:element name="Dry08cc_CoolingRatedCapacity">
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Rated Output (kBtu/h)</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If CC-MCH parent and F09_CoolingRatedCapacity IsPresent
 result = CC-MCH F09_CoolingRatedCapacity 
 Else If CC-PRF parent and HvacDry07_CoolingSensibleDesignCapacity IsPresent
-result = CC-PRF HvacDry07_CoolingSensibleDesignCapacity 
+result = CC-PRF HvacDry07_CoolingSensibleDesignCapacity
+Else result = SeePlans
 End If,</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
                                                                   <dtyp:srcSchema form="CCMCH01E" usage="copy">F09_CoolingRatedCapacity</dtyp:srcSchema>
                                                                   <dtyp:srcSchema form="CCPRF01E" usage="copy">HvacDry07_CoolingSensibleDesignCapacity</dtyp:srcSchema>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
+                                                            <xsd:simpleType>
+                                                               <xsd:union memberTypes="hvac:CoolingRatedCapacity comp:SeePlansMessage"/>
+                                                            </xsd:simpleType>
                                                          </xsd:element>
                                                          <xsd:element name="Dry08cc_NotApplicableMessage">
                                                             <xsd:annotation>
@@ -1362,7 +1381,7 @@ Else If Fa09_EfficiencySEER_EER result1 IsPresent
 result = CC-MCH Fa09_EfficiencySEER_EER result1
 Else If Fb07_EfficiencyEER IsPresent
 result = Fb07_EfficiencyEER
-End If
+Else result = SeePlans
 Else If CC-PRF parent and HvacDry08b_EfficiencyEER IsPresent
 result = CC-PRF HvacDry08b_EfficiencyEER
 Else result = SeePlans
@@ -1491,10 +1510,10 @@ Else If CoolingEER_IEER_SEER:Fa07_EfficiencyType result 1 IsPresent
 result = CoolingEER_IEER_SEER:Fa07_EfficiencyType result 1
 Else If Fb07_EfficiencyEER IsPresent
 result = EER
-End If 
+Else result = SeePlans
 Else If CC-PRF parent and HvacDry08a_EfficiencyType IsPresent
 result = CC-PRF HvacDry08a_EfficiencyType
-End If</xsd:documentation>
+Else result = SeePlans</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
                                                                   <dtyp:srcSchema form="CCMCH01E" usage="copy">CoolingSingleEfficiency:Fa07_EfficiencyType</dtyp:srcSchema>
                                                                   <dtyp:srcSchema form="CCMCH01E" usage="copy">CoolingEER_IEER_SEER:Fa07_EfficiencyType result 1</dtyp:srcSchema>
@@ -1503,6 +1522,7 @@ End If</xsd:documentation>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
                                                             <xsd:simpleType>
+                                                               <xsd:union memberTypes="hvac:EfficiencyType comp:SeePlansMessage"/>
                                                                <xsd:restriction base="hvac:EfficiencyType">
                                                                   <xsd:enumeration value="COP"/>
                                                                   <xsd:enumeration value="EER"/>
@@ -1570,16 +1590,20 @@ End If</xsd:documentation>
                                                          </xsd:element>
                                                       </xsd:choice>
                                                       <xsd:choice maxOccurs="1">
-                                                         <xsd:element name="Dry11cc_EfficiencyIEER" type="hvac:EfficiencyIEER">
+                                                         <xsd:element name="Dry11cc_EfficiencyIEER">
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Efficiency</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If CC-MCH parent and Fa09_EfficiencyEER_IEER result2 IsPresent
 result = Fa09_EfficiencyEER_IEER result2
+Else result = SeePlans
 End If</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
                                                                   <dtyp:srcSchema form="CCMCH01E" usage="copy">Fa09_EfficiencyEER_IEER result2</dtyp:srcSchema>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
+                                                            <xsd:simpleType>
+                                                               <xsd:union memberTypes="hvac:EfficiencyIEER comp:SeePlansMessage"/>
+                                                            </xsd:simpleType>
                                                          </xsd:element>
                                                          <xsd:element name="Dry11cc_EfficiencySEER" type="hvac:EfficiencySEER">
                                                             <xsd:annotation>
@@ -1597,8 +1621,8 @@ End If</xsd:documentation>
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Efficiency</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If CC-PRF parent and HvacDry08c_EfficiencyEER IsPresent
-                                                                      result = HvacDry08c_EfficiencyEER
-                                                                      End If</xsd:documentation>
+   result = HvacDry08c_EfficiencyEER
+   End If</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
                                                                   <dtyp:srcSchema form="CCPRF01E" usage="copy">HvacDry08c_EfficiencyEER</dtyp:srcSchema>
                                                                </xsd:appinfo>
@@ -1660,12 +1684,12 @@ End If</xsd:documentation>
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Efficiency</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If Dry11cc_EfficiencyEER IsPresent
-                                                                      If Dry01_InstalledSameAsCC == true
-                                                                      result = Dry11cc_EfficiencyEER but user can change value
-                                                                      Else If Dry01_InstalledSameAsCC == false
-                                                                      User input
-                                                                      End if
-                                                                      End If</xsd:documentation>
+   If Dry01_InstalledSameAsCC == true
+   result = Dry11cc_EfficiencyEER but user can change value
+   Else If Dry01_InstalledSameAsCC == false
+   User input
+   End if
+   End If</xsd:documentation>
                                                             </xsd:annotation>
                                                          </xsd:element>
                                                          <xsd:element name="Dry11_NotApplicableMessage">
@@ -1692,7 +1716,7 @@ Else If HvacDry08c_EfficiencyEER IsPresent
 result = EER
 Else If HvacDry08c_EfficiencySEER IsPresent
 result = SEER
-End If</xsd:documentation>
+Else result = SeePlans</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
                                                                   <dtyp:srcSchema form="CCMCH01E" usage="copy">CoolingEER_IEER_SEER:Fa07_EfficiencyType result 2</dtyp:srcSchema>
                                                                   <dtyp:srcSchema form="CCPRF01E" usage="copy">HvacDry08c_EfficiencyEER</dtyp:srcSchema>
@@ -1700,6 +1724,7 @@ End If</xsd:documentation>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
                                                             <xsd:simpleType>
+                                                               <xsd:union memberTypes="hvac:EfficiencyType comp:SeePlansMessage"/>
                                                                <xsd:restriction base="hvac:EfficiencyType">
                                                                   <xsd:enumeration value="IEER"/>
                                                                   <xsd:enumeration value="EER"/>
@@ -1894,19 +1919,26 @@ End If</xsd:documentation>
                            <xsd:element name="Row" minOccurs="1" maxOccurs="unbounded">
                               <xsd:complexType>
                                  <xsd:sequence>
-                                    <xsd:element name="Dfhp01cc_HvacSystemName" type="comp:HvacSystemName">
+                                    <xsd:element name="Dfhp01cc_HvacSystemName">
                                        <xsd:annotation>
                                           <xsd:documentation source="FieldText">Name or Item Tag</xsd:documentation>
-                                          <xsd:documentation source="CalculationsAndRules">If CC-MCH parent  
+                                          <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
+                                              If Fdfhp01_HvacSystemName IsPresent
 result = Fdfhp01_HvacSystemName
-Else If CC-PRF parent  
+Else result = SeePlans
+Else If CC-PRF parent
+If Dfhp01_HvacSystemName IsPResent
 result = Dfhp01_HvacSystemName
+Else result = SeePlans
 End If</xsd:documentation>
                                           <xsd:appinfo source="CIsrc">
                                              <dtyp:srcSchema form="CCMCH01E" usage="copy">Fdfhp01_HvacSystemName</dtyp:srcSchema>
                                              <dtyp:srcSchema form="CCMCH01E" usage="copy">Dfhp01_HvacSystemName</dtyp:srcSchema>
                                           </xsd:appinfo>
                                        </xsd:annotation>
+                                       <xsd:simpleType>
+                                          <xsd:union memberTypes="comp:HvacSystemName comp:NotApplicableMessage"/>
+                                       </xsd:simpleType>
                                     </xsd:element>
                                     <xsd:element name="Dfhp01_InMyScope" type="comp:InMyScope">
                                        <xsd:annotation>
@@ -1971,16 +2003,21 @@ this subsection is required</xsd:documentation>
                                                          </xsd:annotation>
                                                       </xsd:element>
                                                       <xsd:choice maxOccurs="1">
-                                                         <xsd:element name="Dfhp03cc_HvacSystemType" type="hvac:HvacSystemType">
+                                                         <xsd:element name="Dfhp03cc_HvacSystemType">
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">System Category</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
+If Fdfhp02b_HvacSystemType IsPresent
 result = Fdfhp02b_HvacSystemType
+Else result = SeePlans
 End If</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
                                                                   <dtyp:srcSchema form="CCMCH01E" usage="copy">Fdfhp02b_HvacSystemType</dtyp:srcSchema>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
+                                                            <xsd:simpleType>
+                                                               <xsd:union memberTypes="hvac:HvacSystemType comp:SeePlansMessage"/>
+                                                            </xsd:simpleType>
                                                          </xsd:element>
                                                          <xsd:element name="Dfhp03cc_FurnaceUnitHeater" type="hvac:FurnaceUnitHeater">
                                                             <xsd:annotation>
@@ -2021,20 +2058,26 @@ End If</xsd:documentation>
                                                          </xsd:element>
                                                       </xsd:choice>
                                                       <xsd:choice maxOccurs="1">
-                                                         <xsd:element name="Dfhp04cc_SizeRangeFurnaceUnitHeater" type="hvac:SizeRangeFurnaceUnitHeater">
+                                                         <xsd:element name="Dfhp04cc_SizeRangeFurnaceUnitHeater">
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Size Category (Btu/h)</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
-   result = Fdfhp04b_SizeRangeFurnaceUnitHeater
-   Else If CC-PRF parent
-   result = Dfhp03b_SizeRangeFurnaceUnitHeater
-   End If
-   End If</xsd:documentation>
+If Fdfhp04b_SizeRangeFurnaceUnitHeater IsPresent
+result = Fdfhp04b_SizeRangeFurnaceUnitHeater
+Else result = SeePlans
+Else If CC-PRF parent
+If Dfhp03b_SizeRangeFurnaceUnitHeater Is Present
+result = Dfhp03b_SizeRangeFurnaceUnitHeater
+Else result = SeePlans
+End If</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
                                                                   <dtyp:srcSchema form="CCMCH01E" usage="copy">Fdfhp04b_SizeRangeFurnaceUnitHeater</dtyp:srcSchema>
                                                                   <dtyp:srcSchema form="CCPRF01E" usage="copy">Dfhp03b_SizeRangeFurnaceUnitHeater</dtyp:srcSchema>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
+                                                            <xsd:simpleType>
+                                                               <xsd:union memberTypes="hvac:SizeRangeFurnaceUnitHeater comp:SeePlansMessage"/>
+                                                            </xsd:simpleType>
                                                          </xsd:element>
                                                          <xsd:element name="Dfhp04cc_NotApplicableMessage">
                                                             <xsd:annotation>
@@ -2079,23 +2122,26 @@ End If</xsd:documentation>
                                                          </xsd:element>
                                                       </xsd:choice>
                                                       <xsd:choice maxOccurs="1">
-                                                         <xsd:element name="Dfhp05cc_CombustionEfficiency" type="hvac:CombustionEfficiency">
+                                                         <xsd:element name="Dfhp05cc_CombustionEfficiency">
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Efficiency</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
 If Fdfhp08b_CombustionEfficiency IsPresent
 result = Fdfhp08b_CombustionEfficiency
-End If
+Else result = SeePlans
 Else If CC-PRF parent
 If Dfhp05b_CombustionEfficiency isPresent
 result = Dfhp05b_CombustionEfficiency
-End If
+Else result = SeePlans
 End If</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
                                                                   <dtyp:srcSchema form="CCMCH01E" usage="copy">Fdfhp08b_CombustionEfficiency</dtyp:srcSchema>
                                                                   <dtyp:srcSchema form="CCPRF01E" usage="copy">Dfhp05b_CombustionEfficiency</dtyp:srcSchema>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
+                                                            <xsd:simpleType>
+                                                               <xsd:union memberTypes="hvac:CombustionEfficiency comp:SeePlansMessage"/>
+                                                            </xsd:simpleType>
                                                          </xsd:element>
                                                          <xsd:element name="Dfhp05cc_ThermalEfficiency" type="hvac:ThermalEfficiency">
                                                             <xsd:annotation>
@@ -2212,9 +2258,13 @@ End if</xsd:documentation>
                                                          <xsd:annotation>
                                                             <xsd:documentation source="FieldText">Efficiency Unit</xsd:documentation>
                                                             <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
+If Fdfhp06b_EfficiencyType IsPresent
 result = Fdfhp06b_EfficiencyType
-Else If CC=PRF parent
+Else result = SeePlans
+Else If CC-PRF parent
+If Dfhp04b_EfficiencyType IsPresent
 result = Dfhp04b_EfficiencyType
+Else result = SeePlans
 End If</xsd:documentation>
                                                             <xsd:appinfo source="CIsrc">
                                                                <dtyp:srcSchema form="CCMCH01E" usage="copy">Fdfhp06b_EfficiencyType</dtyp:srcSchema>
@@ -2222,6 +2272,7 @@ End If</xsd:documentation>
                                                             </xsd:appinfo>
                                                          </xsd:annotation>
                                                          <xsd:simpleType>
+                                                            <xsd:union memberTypes="hvac:EfficiencyType comp:SeePlansMessage"/>
                                                             <xsd:restriction base="hvac:EfficiencyType">
                                                                <xsd:enumeration value="AFUE"/>
                                                                <xsd:enumeration value="CombustionEfficiency"/>
@@ -2239,13 +2290,16 @@ End If</xsd:documentation>
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">System Category</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
+If Fdfhp02a_HvacSystemType IsPresent
 result = Fdfhp02a_HvacSystemType
+Else result = SeePlans
 End If</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
                                                                   <dtyp:srcSchema form="CCMCH01E" usage="copy">Fdfhp02a_HvacSystemType</dtyp:srcSchema>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
                                                             <xsd:simpleType>
+                                                               <xsd:union memberTypes="hvac:HvacSystemType comp:SeePlansMessage"/>
                                                                <xsd:restriction base="hvac:HvacSystemType">
                                                                   <xsd:enumeration value="UnitaryHeatPumps"/>
                                                                   <xsd:enumeration value="UnitaryHeatPumpsNoElectR"/>
@@ -2296,16 +2350,22 @@ End If</xsd:documentation>
                                                          </xsd:element>
                                                       </xsd:choice>
                                                       <xsd:choice maxOccurs="1">
-                                                         <xsd:element name="Dfhp08cc_SizeRangeUnitaryHeatPumps" type="hvac:SizeRangeUnitaryHeatPumps">
+                                                         <xsd:element name="Dfhp08cc_SizeRangeUnitaryHeatPumps">
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Size Category (Btu/h)</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
+If Fdfhp04a_SizeRangeUnitaryHeatPumps IsPresent
 result = Fdfhp04a_SizeRangeUnitaryHeatPumps
+Else result = SeePlans
 Else If CC-PRF parent
+If Dfhp03a_SizeRangeUnitaryHeatPumps IsPresent
 result = Dfhp03a_SizeRangeUnitaryHeatPumps
-
+Else result = SeePlans
 End If</xsd:documentation>
                                                             </xsd:annotation>
+                                                            <xsd:simpleType>
+                                                               <xsd:union memberTypes="hvac:SizeRangeUnitaryHeatPumps comp:SeePlansMessage"/>
+                                                            </xsd:simpleType>
                                                          </xsd:element>
                                                          <xsd:element name="Dfhp08cc_NotApplicableMessage">
                                                             <xsd:annotation>
@@ -2359,23 +2419,26 @@ End If</xsd:documentation>
                                                          </xsd:element>
                                                       </xsd:choice>
                                                       <xsd:choice maxOccurs="1">
-                                                         <xsd:element name="Dfhp09cc_EfficiencyCOP" type="hvac:EfficiencyCOP">
+                                                         <xsd:element name="Dfhp09cc_EfficiencyCOP">
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Efficiency</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
 If Fdfhp11a_EfficiencyCOP IsPresent
 result Fdfhp11a_EfficiencyCOP
-End If 
+Else result = SeePlans
 Else If CC-PRF parent 
 If Dfhp07a_EfficiencyCOP IsPresent
 result = Dfhp07a_EfficiencyCOP
-End If
+Else result = SeePlans
 End If</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
                                                                   <dtyp:srcSchema form="CCMCH01E" usage="copy">Fdfhp11a_EfficiencyCOP</dtyp:srcSchema>
                                                                   <dtyp:srcSchema form="CCPRF01E" usage="copy">Dfhp07a_EfficiencyCOP</dtyp:srcSchema>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
+                                                            <xsd:simpleType>
+                                                               <xsd:union memberTypes="hvac:EfficiencyCOP comp:SeePlansMessage"/>
+                                                            </xsd:simpleType>
                                                          </xsd:element>
                                                          <xsd:element name="Dfhp09cc_EfficiencyEER" type="hvac:EfficiencyEER">
                                                             <xsd:annotation>
@@ -2453,32 +2516,40 @@ End If</xsd:documentation>
                                                             </xsd:annotation>
                                                          </xsd:element>
                                                       </xsd:choice>
-                                                      <xsd:element name="Dfhp10cc_EfficiencyType" type="hvac:EfficiencyType">
+                                                      <xsd:element name="Dfhp10cc_EfficiencyType">
                                                          <xsd:annotation>
                                                             <xsd:documentation source="FieldText">Efficiency Unit</xsd:documentation>
                                                             <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
+If Fdfhp09a_EfficiencyType IsPresent
 result = Fdfhp09a_EfficiencyType
+Else result = SeePlans
 Else If CC-PRF parent
+If Dfhp06a_EfficiencyType IsPresent
 result = Dfhp06a_EfficiencyType
+Else result = SeePlans
 End If</xsd:documentation>
                                                             <xsd:appinfo source="CIsrc">
                                                                <dtyp:srcSchema form="CCMCH01E" usage="copy">Fdfhp09a_EfficiencyType</dtyp:srcSchema>
                                                                <dtyp:srcSchema form="CCMCH01E" usage="copy">Dfhp06a_EfficiencyType</dtyp:srcSchema>
                                                             </xsd:appinfo>
                                                          </xsd:annotation>
+                                                         <xsd:simpleType>
+                                                            <xsd:union memberTypes="hvac:EfficiencyType comp:SeePlansMessage"/>
+                                                         </xsd:simpleType>
                                                       </xsd:element>
                                                       <xsd:choice maxOccurs="1">
-                                                         <xsd:element name="Dfhp11cc_EfficiencyEER_IEER" type="hvac:EfficiencyEER_IEER">
+                                                         <xsd:element name="Dfhp11cc_EfficiencyEER_IEER">
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Efficiency</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
  If Fdfhp11a_EfficiencyEER_IEER IsPresent
 result = result2 in Fdfhp11a_EfficiencyEER_IEER
+Else result = SeePlans
 End If 
 Else If CC-PRF parent 
 If Dfhp07a_EfficiencyEER_IEER IsPresent
 result = result2 in Dfhp07a_EfficiencyEER_IEER
- 
+Else result = SeePlans
 End If
 End If</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
@@ -2486,6 +2557,9 @@ End If</xsd:documentation>
                                                                   <dtyp:srcSchema form="CCPRF01E" usage="copy">Dfhp07a_EfficiencyEER_IEER</dtyp:srcSchema>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
+                                                            <xsd:simpleType>
+                                                               <xsd:union memberTypes="hvac:EfficiencyEER_IEER comp:SeePlansMessage"/>
+                                                            </xsd:simpleType>
                                                          </xsd:element>
                                                          <xsd:element name="Dfhp11cc_NotApplicableMessage">
                                                             <xsd:annotation>
@@ -2541,19 +2615,25 @@ End If</xsd:documentation>
                                                             </xsd:simpleType>
                                                          </xsd:element>
                                                       </xsd:choice>
-                                                      <xsd:element name="Dfhp12cc_EfficiencyType" type="hvac:EfficiencyType">
+                                                      <xsd:element name="Dfhp12cc_EfficiencyType">
                                                          <xsd:annotation>
                                                             <xsd:documentation source="FieldText">Efficiency Unit</xsd:documentation>
                                                             <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
+                                                                If Fdfhp09a_EfficiencyType IsPresent
 result =result 2 Fdfhp09a_EfficiencyType in CoolingEER_IEER_Dfhp element
 Else If CC-PRF parent
+Else result = SeePlans
+If Dfhp06a_EfficiencyType IsPresent
 result = result 2 Dfhp06a_EfficiencyType in CoolingEER_IEER_Dfhp element
- 
+ Else result = SeePlans
 End If</xsd:documentation>
                                                             <xsd:appinfo source="CIsrc">
                                                                <dtyp:srcSchema form="CCMCH01E" usage="copy">Fdfhp09a_EfficiencyType</dtyp:srcSchema>
                                                             </xsd:appinfo>
                                                          </xsd:annotation>
+                                                         <xsd:simpleType>
+                                                            <xsd:union memberTypes="hvac:EfficiencyType comp:SeePlansMessage"/>
+                                                         </xsd:simpleType>
                                                       </xsd:element>
                                                       <xsd:element name="Dfph13_ComplianceResultCI" type="comp:ComplianceResultCI">
                                                          <xsd:annotation>
@@ -2686,11 +2766,19 @@ End If</xsd:documentation>
                                        <xsd:annotation>
                                           <xsd:documentation source="FieldText">Name or Item Tag</xsd:documentation>
                                           <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
-result = Fdoas01_HvacSystemName</xsd:documentation>
+If Fdoas01_HvacSystemName IsPresent
+result = Fdoas01_HvacSystemName
+Else result = BlankGrayedOut
+Else If CC-PRF Parent
+result = BlankGrayedOut
+End If</xsd:documentation>
                                           <xsd:appinfo source="CIsrc">
                                              <dtyp:srcSchema form="CCMCH01E" usage="copy">Fdoas01_HvacSystemName</dtyp:srcSchema>
                                           </xsd:appinfo>
                                        </xsd:annotation>
+                                       <xsd:simpleType>
+                                          <xsd:union memberTypes="hvac:HvacSystemName comp:NotApplicableMessage"/>
+                                       </xsd:simpleType>
                                     </xsd:element>
                                     <xsd:element name="Doas01_InMyScope" type="comp:InMyScope">
                                        <xsd:annotation>
@@ -2744,11 +2832,17 @@ this subsection is required</xsd:documentation>
                                                          <xsd:annotation>
                                                             <xsd:documentation source="FieldText">Equipment Type</xsd:documentation>
                                                             <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
-result = Fdoas02_EquipmentDX</xsd:documentation>
+If Fdoas02_EquipmentDX IsPresent
+result = Fdoas02_EquipmentDX
+Else result = SeePlans
+Else result = SeePlans</xsd:documentation>
                                                             <xsd:appinfo source="CIsrc">
                                                                <dtyp:srcSchema form="CCMCH01E" usage="copy">Fdoas02_EquipmentDX</dtyp:srcSchema>
                                                             </xsd:appinfo>
                                                          </xsd:annotation>
+                                                         <xsd:simpleType>
+                                                            <xsd:union memberTypes="hvac:EquipmentDX comp:NotApplicableMessage"/>
+                                                         </xsd:simpleType>
                                                       </xsd:element>
                                                       <xsd:element name="Doas03_EquipmentDX" type="hvac:EquipmentDX">
                                                          <xsd:annotation>
@@ -2760,15 +2854,21 @@ User input
 End If</xsd:documentation>
                                                          </xsd:annotation>
                                                       </xsd:element>
-                                                      <xsd:element name="Doas04cc_EnergyRecovery" type="hvac:EnergyRecovery">
+                                                      <xsd:element name="Doas04cc_EnergyRecovery">
                                                          <xsd:annotation>
                                                             <xsd:documentation source="FieldText">Energy Recovery</xsd:documentation>
-                                                            <xsd:documentation source="CalculationsAndRules">If CC-MCH parent 
-result = Fdoas04_EnergyRecovery</xsd:documentation>
+                                                            <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
+If Fdoas04_EnergyRecovery IsPresent
+result = Fdoas04_EnergyRecovery
+Else result = SeePlans
+Else result = SeePlans</xsd:documentation>
                                                             <xsd:appinfo source="CIsrc">
                                                                <dtyp:srcSchema form="CCMCH01E" usage="copy">Fdoas04_EnergyRecovery</dtyp:srcSchema>
                                                             </xsd:appinfo>
                                                          </xsd:annotation>
+                                                         <xsd:simpleType>
+                                                            <xsd:union memberTypes="hvac:EnergyRecovery comp:NotApplicableMessage"/>
+                                                         </xsd:simpleType>
                                                       </xsd:element>
                                                       <xsd:element name="Doas04_EnergyRecovery" type="hvac:EnergyRecovery">
                                                          <xsd:annotation>
@@ -2781,17 +2881,21 @@ End If</xsd:documentation>
                                                          </xsd:annotation>
                                                       </xsd:element>
                                                       <xsd:choice maxOccurs="1">
-                                                         <xsd:element name="Doas05cc_RatingConditionDOAS" type="hvac:RatingConditionDOAS">
+                                                         <xsd:element name="Doas05cc_RatingConditionDOAS">
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Rating Condition</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
 If Fdoas05_RatingConditionDOAS isPresent
 result = Fdoas05_RatingConditionDOAS
-End If</xsd:documentation>
+Else result = SeePlans
+Else result = SeePlans</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
                                                                   <dtyp:srcSchema form="CCMCH01E" usage="copy">Fdoas05_RatingConditionDOAS</dtyp:srcSchema>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
+                                                            <xsd:simpleType>
+                                                               <xsd:union memberTypes="hvac:RatingConditionDOAS comp:NotApplicableMessage"/>
+                                                            </xsd:simpleType>
                                                          </xsd:element>
                                                          <xsd:element name="Doas05cc_NotApplicableMessage">
                                                             <xsd:annotation>
@@ -2838,15 +2942,21 @@ End If</xsd:documentation>
                                                             </xsd:simpleType>
                                                          </xsd:element>
                                                       </xsd:choice>
-                                                      <xsd:element name="Doas06cc_EfficiencyISMRE" type="hvac:EfficiencyISMRE">
+                                                      <xsd:element name="Doas06cc_EfficiencyISMRE">
                                                          <xsd:annotation>
                                                             <xsd:documentation source="FieldText">Efficiency</xsd:documentation>
                                                             <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
-result = Fdoas06a_EfficiencyISMRE</xsd:documentation>
+If Fdoas06a_EfficiencyISMRE Is Present
+result = Fdoas06a_EfficiencyISMRE
+Else result = SeePlans
+Else result = SeePlans</xsd:documentation>
                                                             <xsd:appinfo source="CIsrc">
                                                                <dtyp:srcSchema form="CCMCH01E" usage="copy">Fdoas06a_EfficiencyISMRE</dtyp:srcSchema>
                                                             </xsd:appinfo>
                                                          </xsd:annotation>
+                                                         <xsd:simpleType>
+                                                            <xsd:union memberTypes="hvac:EfficiencyISMRE comp:NotApplicableMessage"/>
+                                                         </xsd:simpleType>
                                                       </xsd:element>
                                                       <xsd:element name="Doas06_EfficiencyISMRE" type="hvac:EfficiencyISMRE">
                                                          <xsd:annotation>
@@ -2873,12 +2983,15 @@ End If</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
 If Fdoas06b_EfficiencyISCOP IsPresnt
 result = Fdoas06b_EfficiencyISCOP
-End If
-End If</xsd:documentation>
+Else result = SeePlans
+Else result = SeePlans</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
                                                                   <dtyp:srcSchema form="CCMCH01E" usage="copy">Fdoas06b_EfficiencyISCOP</dtyp:srcSchema>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
+                                                            <xsd:simpleType>
+                                                               <xsd:union memberTypes="hvac:EfficiencyISCOP comp:NotApplicableMessage"/>
+                                                            </xsd:simpleType>
                                                          </xsd:element>
                                                          <xsd:element name="Doas08cc_NotApplicableMessage">
                                                             <xsd:annotation>
@@ -3005,12 +3118,14 @@ End If</xsd:documentation>
                                     <xsd:element name="Blr01cc_BoilerName" type="hvac:BoilerName">
                                        <xsd:annotation>
                                           <xsd:documentation source="FieldText">Tag/Plan Detail ID</xsd:documentation>
-                                          <xsd:documentation source="CalculationsAndRules">If CC-MCH parent 
-result = CC-MCH  Fc01_BoilerName 
+                                          <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
+If Fc01_BoilerName IsPresent
+result = CC-MCH  Fc01_BoilerName
+Else result = SeePlans
 Else If NRCC-PRF parent 
 If HvacWet02_BoilerType IsPresent
 result = CC-PRF HvacWet01_HvacEquipmentName
-End If
+Else result = SeePlans
 End If
 The result is displayed in both the Per C of C and As-built conditions</xsd:documentation>
                                           <xsd:appinfo source="CIsrc">
@@ -3018,6 +3133,9 @@ The result is displayed in both the Per C of C and As-built conditions</xsd:docu
                                              <dtyp:srcSchema form="CCPRF01E" usage="copy">HvacWet01_HvacEquipmentName</dtyp:srcSchema>
                                           </xsd:appinfo>
                                        </xsd:annotation>
+                                       <xsd:simpleType>
+                                          <xsd:union memberTypes="hvac:BoilerName comp:NotApplicableMessage"/>
+                                       </xsd:simpleType>
                                     </xsd:element>
                                     <xsd:element name="Blr01_InMyScope" type="comp:InMyScope">
                                        <xsd:annotation>
@@ -3076,19 +3194,26 @@ End If</xsd:documentation>
                                                             <xsd:documentation source="CalculationsAndRules">User input</xsd:documentation>
                                                          </xsd:annotation>
                                                       </xsd:element>
-                                                      <xsd:element name="Blr03cc_BoilerType" type="hvac:BoilerType">
+                                                      <xsd:element name="Blr03cc_BoilerType">
                                                          <xsd:annotation>
                                                             <xsd:documentation source="FieldText">Equipment Type</xsd:documentation>
-                                                            <xsd:documentation source="CalculationsAndRules">If CC-MCH parent 
-result = CC-MCH  Fc02_BoilerType 
-Else If CC-PRF parent 
+                                                            <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
+If Fc02_BoilerType IsPresent
+result = CC-MCH  Fc02_BoilerType
+Else result = SeePlans
+Else If CC-PRF parent
+If HvacWet02_BoilerType IsPresent
 result = CC-PRF HvacWet02_BoilerType
+Else result = SeePlans
 End If</xsd:documentation>
                                                             <xsd:appinfo source="CIsrc">
                                                                <dtyp:srcSchema form="CCMCH01E" usage="copy">Fc02_BoilerType</dtyp:srcSchema>
                                                                <dtyp:srcSchema form="CCPRF01E" usage="copy">HvacWet02_BoilerType</dtyp:srcSchema>
                                                             </xsd:appinfo>
                                                          </xsd:annotation>
+                                                         <xsd:simpleType>
+                                                            <xsd:union memberTypes="hvac:BoilerType comp:SeePlansMessage"/>
+                                                         </xsd:simpleType>
                                                       </xsd:element>
                                                       <xsd:element name="Blr03_BoilerType" type="hvac:BoilerType">
                                                          <xsd:annotation>
@@ -3101,19 +3226,24 @@ End if</xsd:documentation>
                                                          </xsd:annotation>
                                                       </xsd:element>
                                                       <xsd:choice maxOccurs="1">
-                                                         <xsd:element name="Blr04cc_BoilerCount" type="hvac:BoilerCount">
+                                                         <xsd:element name="Blr04cc_BoilerCount">
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Quantity</xsd:documentation>
-                                                               <xsd:documentation source="CalculationsAndRules">If CC-MCH parent 
+                                                               <xsd:documentation source="CalculationsAndRules">If CC-MCH parent and Fc03_BoilerCount IsPresent
 result = CC-MCH  Fc03_BoilerCount
+Else result = SeePlans
 Else If CC-PRF parent And HvacWet04_HvacEquipmentCount IsPresent
 result = CC-PRF HvacWet04_HvacEquipmentCount
+Else result = SeePlans
 End If</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
                                                                   <dtyp:srcSchema form="CCMCH01E" usage="copy">Fc03_BoilerCount</dtyp:srcSchema>
                                                                   <dtyp:srcSchema form="CCPRF01E" usage="copy">HvacWet04_HvacEquipmentCount</dtyp:srcSchema>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
+                                                            <xsd:simpleType>
+                                                               <xsd:union memberTypes="hvac:BoilerCount comp:SeePlansMessage"/>
+                                                            </xsd:simpleType>
                                                          </xsd:element>
                                                          <xsd:element name="Blr04cc_NotApplicableMessage">
                                                             <xsd:annotation>
@@ -3160,16 +3290,21 @@ End if</xsd:documentation>
                                                          </xsd:element>
                                                       </xsd:choice>
                                                       <xsd:choice maxOccurs="1">
-                                                         <xsd:element name="Blr05cc_BoilerRatedInput" type="hvac:BoilerRatedInput">
+                                                         <xsd:element name="Blr05cc_BoilerRatedInput">
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Rated Input (Btu/h)</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If CC-MCH parent 
+IF Fc04_BoilerRatedInput IsPresent
 result = CC-MCH  Fc04_BoilerRatedInput 
-End If</xsd:documentation>
+Else result = SeePlans
+Else result = SeePlans</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
                                                                   <dtyp:srcSchema form="CCMCH01E" usage="copy">Fc04_BoilerRatedInput</dtyp:srcSchema>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
+                                                            <xsd:simpleType>
+                                                               <xsd:union memberTypes="hvac:BoilerRatedInput comp:SeePlansMessage"/>
+                                                            </xsd:simpleType>
                                                          </xsd:element>
                                                          <xsd:element name="Blr05cc_CapacityRated" type="hvac:CapacityRated">
                                                             <xsd:annotation>
@@ -3210,23 +3345,26 @@ End If</xsd:documentation>
                                                          </xsd:element>
                                                       </xsd:choice>
                                                       <xsd:choice maxOccurs="1">
-                                                         <xsd:element name="Blr06cc_EfficiencyAFUE" type="hvac:EfficiencyAFUE">
+                                                         <xsd:element name="Blr06cc_EfficiencyAFUE">
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Rated Efficiency</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If CC-MCH parent 
 If CC-MCH Fc05_EfficiencyAFUE IsPresent 
-result = CC-MCH  Fc05_EfficiencyAFUE
-End If
+result = CC-MCH Fc05_EfficiencyAFUE
+Else result = SeePlans
 Else If CC-PRF parent
 If CC-PRF HvacWet06_EfficiencyAFUE IsPresent
-result =  HvacWet06_EfficiencyAFUE
-End If
+result = HvacWet06_EfficiencyAFUE
+Else result = SeePlans
 End If</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
                                                                   <dtyp:srcSchema form="CCMCH01E" usage="copy">Fc05_EfficiencyAFUE</dtyp:srcSchema>
                                                                   <dtyp:srcSchema form="CCPRF01E" usage="copy">HvacWet06_EfficiencyAFUE</dtyp:srcSchema>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
+                                                            <xsd:simpleType>
+                                                               <xsd:union memberTypes="hvac:EfficiencyAFUE comp:SeePlansMessage"/>
+                                                            </xsd:simpleType>
                                                          </xsd:element>
                                                          <xsd:element name="Blr06cc_ThermalEfficiency" type="hvac:ThermalEfficiency">
                                                             <xsd:annotation>
@@ -3307,12 +3445,13 @@ End If</xsd:documentation>
                                                          <xsd:element name="Blr07cc_EfficiencyType">
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Efficiency Unit</xsd:documentation>
-                                                               <xsd:documentation source="CalculationsAndRules">If CC-MCH parent 
+                                                               <xsd:documentation source="CalculationsAndRules">If CC-MCH parent and Fc07_EfficiencyType IsPresent
 result = CC-MCH  Fc07_EfficiencyType
+Else result = SeePlans
 Else If CC-PRF parent
 If CC-PRF HvacWet09_EfficiencyType IsPresent
-result =  HvacWet09_EfficiencyType
-End If
+result = HvacWet09_EfficiencyType
+Else result = SeePlans
 End If</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
                                                                   <dtyp:srcSchema form="CCMCH01E" usage="copy">Fc07_EfficiencyType</dtyp:srcSchema>
@@ -3320,6 +3459,7 @@ End If</xsd:documentation>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
                                                             <xsd:simpleType>
+                                                               <xsd:union memberTypes="hvac:EfficiencyType comp:SeePlansMessage"/>
                                                                <xsd:restriction base="hvac:EfficiencyType">
                                                                   <xsd:enumeration value="AFUE"/>
                                                                   <xsd:enumeration value="CombustionEfficiency"/>
@@ -3390,8 +3530,9 @@ End If</xsd:documentation>
                                                          <xsd:element name="Blr08cc_BoilerIsolationValve">
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Isolation Valve</xsd:documentation>
-                                                               <xsd:documentation source="CalculationsAndRules">If CC-MCH parent 
+                                                               <xsd:documentation source="CalculationsAndRules">If CC-MCH parent and Fc08_BoilerIsolationValve IsPresent
 result = CC-MCH  Fc08_BoilerIsolationValve
+Else result = SeePlans
 Else If CC-PRF Parent
 result = SeePlans
 End If</xsd:documentation>
@@ -3452,8 +3593,10 @@ End If</xsd:documentation>
                                                          <xsd:element name="Blr09cc_TempResetControl">
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Temperature Reset</xsd:documentation>
-                                                               <xsd:documentation source="CalculationsAndRules">If CC-MCH parent 
+                                                               <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
+If Fc09_TempResetControl IsPresent
 result = CC-MCH  Fc09_TempResetControl
+Else result = Fc09_TempResetControl
 Else If CC-PRF
 result = See Plans
 End If</xsd:documentation>
@@ -3606,14 +3749,16 @@ End If</xsd:documentation>
                            <xsd:element name="Row" minOccurs="1" maxOccurs="unbounded">
                               <xsd:complexType>
                                  <xsd:sequence>
-                                    <xsd:element name="Chlr01cc_ChillerName" type="hvac:ChillerName">
+                                    <xsd:element name="Chlr01cc_ChillerName">
                                        <xsd:annotation>
                                           <xsd:documentation source="FieldText">Tag/Plan Detail ID</xsd:documentation>
-                                          <xsd:documentation source="CalculationsAndRules">If CC-MCH parent 
-result = CC-MCH  Fd01_ChillerName 
+                                          <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
+If Fd01_ChillerName IsPresent
+result = CC-MCH  Fd01_ChillerName
+Else result = BlankGrayedOut
 Else If CC-PRF parent And HvacWet01_ChillerType IsPresent
 result = CC-PRF HvacWet01_HvacEquipmentName
-End If
+Else result = BlankGrayedOut
  
 The result is displayed in both the Per C of C and As-built conditions</xsd:documentation>
                                           <xsd:appinfo source="CIsrc">
@@ -3621,6 +3766,9 @@ The result is displayed in both the Per C of C and As-built conditions</xsd:docu
                                              <dtyp:srcSchema form="CCPRF01E" usage="copy">HvacWet01_HvacEquipmentName</dtyp:srcSchema>
                                           </xsd:appinfo>
                                        </xsd:annotation>
+                                       <xsd:simpleType>
+                                          <xsd:union memberTypes="hvac:ChillerName comp:NotApplicableMessage"/>
+                                       </xsd:simpleType>
                                     </xsd:element>
                                     <xsd:element name="Chlr01_InMyScope" type="comp:InMyScope">
                                        <xsd:annotation>
@@ -3679,14 +3827,14 @@ End If</xsd:documentation>
                                                             <xsd:documentation source="CalculationsAndRules">User input</xsd:documentation>
                                                          </xsd:annotation>
                                                       </xsd:element>
-                                                      <xsd:element name="Chlr03cc_ChillerType" type="hvac:ChillerType">
+                                                      <xsd:element name="Chlr03cc_ChillerType">
                                                          <xsd:annotation>
                                                             <xsd:documentation source="FieldText">Equipment Type</xsd:documentation>
-                                                            <xsd:documentation source="CalculationsAndRules">If CC-MCH parent 
+                                                            <xsd:documentation source="CalculationsAndRules">If CC-MCH parent and Fd02_ChillerType IsPresent
 result = CC-MCH  Fd02_ChillerType 
-Else If CC-PRF parent 
+Else If CC-PRF parent and HvacWet02_ChillerType IsPresent
 result = CC-PRF HvacWet02_ChillerType
-End If</xsd:documentation>
+Else result = SeePlans</xsd:documentation>
                                                             <xsd:appinfo source="displayterm">
                                                                <dtyp:displayterm value="AbsorptionSingleEffect">Air Cooled: Absorption, single effect</dtyp:displayterm>
                                                                <dtyp:displayterm value="Reciprocating">Water Cooled: Reciprocating</dtyp:displayterm>
@@ -3697,6 +3845,9 @@ End If</xsd:documentation>
                                                                <dtyp:srcSchema form="CCPRF01E" usage="copy">HvacWet02_ChillerType</dtyp:srcSchema>
                                                             </xsd:appinfo>
                                                          </xsd:annotation>
+                                                         <xsd:simpleType>
+                                                            <xsd:union memberTypes="hvac:ChillerType comp:SeePlansMessage"/>
+                                                         </xsd:simpleType>
                                                       </xsd:element>
                                                       <xsd:element name="Chlr03_ChillerType" type="hvac:ChillerType">
                                                          <xsd:annotation>
@@ -3709,19 +3860,22 @@ End if</xsd:documentation>
                                                          </xsd:annotation>
                                                       </xsd:element>
                                                       <xsd:choice maxOccurs="1">
-                                                         <xsd:element name="Chlr04cc_Count" type="hvac:Count">
+                                                         <xsd:element name="Chlr04cc_Count">
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Quantity</xsd:documentation>
-                                                               <xsd:documentation source="CalculationsAndRules">If CC-MCH parent 
+                                                               <xsd:documentation source="CalculationsAndRules">If CC-MCH parent and Fd03_ChillerCount IsPresent
 result = CC-MCH  Fd03_ChillerCount 
 Else If CC-PRF parent And HvacWet04_HvacEquipmentCount IsPresent
 result = CC-PRF HvacWet04_HvacEquipmentCount
-End If</xsd:documentation>
+Else result = SeePlans</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
                                                                   <dtyp:srcSchema form="CCMCH01E" usage="copy">Fd03_ChillerCount</dtyp:srcSchema>
                                                                   <dtyp:srcSchema form="CCPRF01E" usage="copy">HvacWet04_HvacEquipmentCount</dtyp:srcSchema>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
+                                                            <xsd:simpleType>
+                                                               <xsd:union memberTypes="hvac:Count comp:SeePlansMessage"/>
+                                                            </xsd:simpleType>
                                                          </xsd:element>
                                                          <xsd:element name="Chlr04cc_NotApplicableMessage">
                                                             <xsd:annotation>
@@ -3770,14 +3924,15 @@ End If</xsd:documentation>
                                                          <xsd:element name="Chlr05cc_ChillerTonsRange">
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Size (tons)</xsd:documentation>
-                                                               <xsd:documentation source="CalculationsAndRules">If CC-MCH parent 
+                                                               <xsd:documentation source="CalculationsAndRules">If CC-MCH parent and Fd04_ChillerTonsRange IsPresent
 result = CC-MCH  Fd04_ChillerTonsRange
-End If</xsd:documentation>
+Else result = SeePlans</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
                                                                   <dtyp:srcSchema form="CCMCH01E" usage="copy">Fd04_ChillerTonsRange</dtyp:srcSchema>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
                                                             <xsd:simpleType>
+                                                               <xsd:union memberTypes="hvac:ChillerTonsRange comp:SeePlansMessage"/>
                                                                <xsd:restriction base="hvac:ChillerTonsRange">
                                                                   <xsd:enumeration value="GTE150ToLT300"/>
                                                                   <xsd:enumeration value="GTE300ToLT400"/>
@@ -3837,7 +3992,7 @@ End If</xsd:documentation>
                                                          </xsd:element>
                                                       </xsd:choice>
                                                       <xsd:choice maxOccurs="1">
-                                                         <xsd:element name="Chlr06cc_EfficiencyCOP" type="hvac:EfficiencyCOP">
+                                                         <xsd:element name="Chlr06cc_EfficiencyCOP">
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Rated Efficiency #1</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If CC-MCH parent 
@@ -3845,8 +4000,10 @@ If Fd06a_ChillerCOP IsPresent
 result = CC-MCH   Fd06a_ChillerCOP
 Else If  Fd06a_EfficiencyCOP IsPresent 
 result = CC-MCH   Fd06a_EfficiencyCOP
+Else result = SeePlans
 Else If CC-PRF parent And HvacWet08_EfficiencyCOP IsPresent
-result = CC-PRF parent And HvacWet08_EfficiencyCOP 
+result = CC-PRF parent And HvacWet08_EfficiencyCOP
+Else result = SeePlans
 End If</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
                                                                   <dtyp:srcSchema form="CCMCH01E" usage="copy">Fd06a_ChillerCOP</dtyp:srcSchema>
@@ -3854,6 +4011,9 @@ End If</xsd:documentation>
                                                                   <dtyp:srcSchema form="CCPRF01E" usage="copy">HvacWet08_EfficiencyCOP</dtyp:srcSchema>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
+                                                            <xsd:simpleType>
+                                                               <xsd:union memberTypes="hvac:EfficiencyCOP comp:SeePlansMessage"/>
+                                                            </xsd:simpleType>
                                                          </xsd:element>
                                                          <xsd:element name="Chlr06cc_EfficiencyEER" type="hvac:EfficiencyEER">
                                                             <xsd:annotation>
@@ -3958,10 +4118,12 @@ End If</xsd:documentation>
                                                          <xsd:element name="Chlr07cc_EfficiencyType">
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Efficiency Unit #1</xsd:documentation>
-                                                               <xsd:documentation source="CalculationsAndRules">If CC-MCH parent And Fd08a_NotApplicableMessage NotPresent
-result = Fd08a_EfficiencyType 
+                                                               <xsd:documentation source="CalculationsAndRules">If CC-MCH parent And Fd08a_NotApplicableMessage NotPresent and Fd08a_EfficiencyType IsPresent
+result = Fd08a_EfficiencyType
+Else result = SeePlans
 Else If CC-PRF parent And HvacWet02_ChillerType IsPresent
 result = HvacWet09_EfficiencyType
+Else result = SeePlans
 End If</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
                                                                   <dtyp:srcSchema form="CCMCH01E" usage="reference">Fd08a_NotApplicableMessage</dtyp:srcSchema>
@@ -3970,6 +4132,7 @@ End If</xsd:documentation>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
                                                             <xsd:simpleType>
+                                                               <xsd:union memberTypes="hvac:EfficiencyType comp:SeePlansMessage"/>
                                                                <xsd:restriction base="hvac:EfficiencyType">
                                                                   <xsd:enumeration value="COP"/>
                                                                   <xsd:enumeration value="EER"/>
@@ -4031,16 +4194,20 @@ End If</xsd:documentation>
                                                          </xsd:element>
                                                       </xsd:choice>
                                                       <xsd:choice maxOccurs="1">
-                                                         <xsd:element name="Chlr08cc_EfficiencyCOP_IPLV" type="hvac:EfficiencyCOP_IPLV">
+                                                         <xsd:element name="Chlr08cc_EfficiencyCOP_IPLV">
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Rated Efficiency #2</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If CC-MCH parent And Fd06b_EfficiencyCOP_IPLV IsPresent
 result = CC-MCH   Fd06b_EfficiencyCOP_IPLV
+Else result = SeePlans
 End If</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
                                                                   <dtyp:srcSchema form="CCMCH01E" usage="copy">Fd06b_EfficiencyCOP_IPLV</dtyp:srcSchema>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
+                                                            <xsd:simpleType>
+                                                               <xsd:union memberTypes="hvac:EfficiencyCOP_IPLV comp:SeePlansMessage"/>
+                                                            </xsd:simpleType>
                                                          </xsd:element>
                                                          <xsd:element name="Chlr08cc_EfficiencyEER_IPLV" type="hvac:EfficiencyEER_IPLV">
                                                             <xsd:annotation>
@@ -4146,13 +4313,15 @@ End If</xsd:documentation>
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Efficiency Unit #2</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If CC-MCH parent And Fd08b_EfficiencyType IsPresent 
-result = CC-MCH   Fd08b_EfficiencyType  
+result = CC-MCH   Fd08b_EfficiencyType
+Else result = SeePlans
 End If</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
                                                                   <dtyp:srcSchema form="CCMCH01E" usage="copy">Fd08b_EfficiencyType</dtyp:srcSchema>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
                                                             <xsd:simpleType>
+                                                               <xsd:union memberTypes="hvac:EfficiencyType comp:SeePlansMessage"/>
                                                                <xsd:restriction base="hvac:EfficiencyType">
                                                                   <xsd:enumeration value="COP_IPLV"/>
                                                                   <xsd:enumeration value="EER_IPLV"/>
