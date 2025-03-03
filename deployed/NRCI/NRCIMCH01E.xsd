@@ -2540,7 +2540,7 @@ End If</xsd:documentation>
                                                             </xsd:appinfo>
                                                          </xsd:annotation>
                                                          <xsd:simpleType>
-                                                             <xsd:union memberTypes="hvac:EfficiencyType comp:SeePlansMessage"/>
+                                                            <xsd:union memberTypes="hvac:EfficiencyType comp:SeePlansMessage"/>
                                                             <xsd:restriction base="hvac:EfficiencyType">
                                                                <xsd:enumeration value="COP"/>
                                                                <xsd:enumeration value="EER"/>
@@ -8580,7 +8580,7 @@ End If</xsd:documentation>
                                                                                              <xsd:element name="Ventnr06_ExhaustPerSpace" type="com:ExhaustPerSpace">
                                                                                                 <xsd:annotation>
                                                                                                    <xsd:documentation source="FieldText">Exhaust Ventilation CFM</xsd:documentation>
-                                                                                                   <xsd:documentation source="CalculationsAndRules">If Ventnr06cc_ExhaustPerSpace IsPresent  
+                                                                                                   <xsd:documentation source="CalculationsAndRules">If Ventnr06cc_ExhaustPerSpace IsPresent
 If Ventnr01_InstalledSameAsCC == true
 result = Ventnr06cc_ExhaustPerSpace but value can be changed
 Else If Ventnr01_InstalledSameAsCC == false
@@ -8644,7 +8644,7 @@ End If</xsd:documentation>
                                                                                              <xsd:element name="Ventnr07_OccupantSensorVent" type="comp:OccupantSensorVent">
                                                                                                 <xsd:annotation>
                                                                                                    <xsd:documentation source="FieldText">Occupant Sensor Controls</xsd:documentation>
-                                                                                                   <xsd:documentation source="CalculationsAndRules">If Ventnr07cc_OccupantSensorVent IsPresent 
+                                                                                                   <xsd:documentation source="CalculationsAndRules">If Ventnr07cc_OccupantSensorVent IsPresent
 If Ventnr01_InstalledSameAsCC == true
 result = Ventnr07cc_OccupantSensorVent but user can change value
 Else If Ventnr01_InstalledSameAsCC == false
@@ -8656,7 +8656,7 @@ End If</xsd:documentation>
                                                                                              <xsd:element name="Ventnr07_NotApplicableMessage">
                                                                                                 <xsd:annotation>
                                                                                                    <xsd:documentation source="FieldText">Occupant Sensor Controls</xsd:documentation>
-                                                                                                   <xsd:documentation source="CalculationsAndRules">If Ventnr07cc_NotApplicableMessage IsPresent 
+                                                                                                   <xsd:documentation source="CalculationsAndRules">If Ventnr07cc_NotApplicableMessage IsPresent
 result = Ventnr07cc_NotApplicableMessage
 End If</xsd:documentation>
                                                                                                 </xsd:annotation>
@@ -8708,7 +8708,7 @@ End If</xsd:documentation>
                                                                                              <xsd:element name="Ventnr08_DemandControlVent" type="comp:DemandControlVent">
                                                                                                 <xsd:annotation>
                                                                                                    <xsd:documentation source="FieldText">Demand Control Ventilation</xsd:documentation>
-                                                                                                   <xsd:documentation source="CalculationsAndRules">If Ventnr08cc_DemandControlVent IsPresent 
+                                                                                                   <xsd:documentation source="CalculationsAndRules">If Ventnr08cc_DemandControlVent IsPresent
 If Ventnr01_InstalledSameAsCC == true
 result = Ventnr08cc_DemandControlVent but user can change value
 Else If Ventnr01_InstalledSameAsCC == false
@@ -8720,7 +8720,7 @@ End If</xsd:documentation>
                                                                                              <xsd:element name="Ventnr08_NotApplicableMessage">
                                                                                                 <xsd:annotation>
                                                                                                    <xsd:documentation source="FieldText">Demand Control Ventilation</xsd:documentation>
-                                                                                                   <xsd:documentation source="CalculationsAndRules">If Ventnr08cc_NotApplicableMessage IsPresent  
+                                                                                                   <xsd:documentation source="CalculationsAndRules">If Ventnr08cc_NotApplicableMessage IsPresent
 result = Ventnr08cc_NotApplicableMessage
 End If</xsd:documentation>
                                                                                                 </xsd:annotation>
