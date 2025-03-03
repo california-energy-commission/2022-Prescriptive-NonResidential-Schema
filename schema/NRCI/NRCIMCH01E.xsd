@@ -1200,6 +1200,7 @@ End If</xsd:documentation>
                                                                   <xsd:enumeration value="CombustionEfficiency"/>
                                                                   <xsd:enumeration value="COP"/>
                                                                   <xsd:enumeration value="HSPF"/>
+                                                                  <xsd:enumeration value="HSPF2"/>
                                                                   <xsd:enumeration value="ThermalEfficiency"/>
                                                                </xsd:restriction>
                                                             </xsd:simpleType>
@@ -1246,6 +1247,7 @@ End If</xsd:documentation>
                                                                   <xsd:enumeration value="CombustionEfficiency"/>
                                                                   <xsd:enumeration value="COP"/>
                                                                   <xsd:enumeration value="HSPF"/>
+                                                                  <xsd:enumeration value="HSPF2"/>
                                                                   <xsd:enumeration value="ThermalEfficiency"/>
                                                                </xsd:restriction>
                                                             </xsd:simpleType>
@@ -1513,8 +1515,10 @@ Else result = SeePlans</xsd:documentation>
                                                                <xsd:restriction base="hvac:EfficiencyType">
                                                                   <xsd:enumeration value="COP"/>
                                                                   <xsd:enumeration value="EER"/>
+                                                                  <xsd:enumeration value="EER2"/>
                                                                   <xsd:enumeration value="SCOP"/>
                                                                   <xsd:enumeration value="SEER"/>
+                                                                  <xsd:enumeration value="SEER2"/>
                                                                </xsd:restriction>
                                                             </xsd:simpleType>
                                                          </xsd:element>
@@ -1557,8 +1561,10 @@ End If</xsd:documentation>
                                                                <xsd:restriction base="hvac:EfficiencyType">
                                                                   <xsd:enumeration value="COP"/>
                                                                   <xsd:enumeration value="EER"/>
+                                                                  <xsd:enumeration value="EER2"/>
                                                                   <xsd:enumeration value="SCOP"/>
                                                                   <xsd:enumeration value="SEER"/>
+                                                                  <xsd:enumeration value="SEER2"/>
                                                                </xsd:restriction>
                                                             </xsd:simpleType>
                                                          </xsd:element>
@@ -2519,9 +2525,15 @@ End If</xsd:documentation>
                                                                <dtyp:srcSchema form="CCMCH01E"  usage="copy">Dfhp06a_EfficiencyType</dtyp:srcSchema>
                                                             </xsd:appinfo>
                                                          </xsd:annotation>
-                                                          <xsd:simpleType>
-                                                              <xsd:union memberTypes="hvac:EfficiencyType comp:SeePlansMessage"/>
-                                                          </xsd:simpleType>
+                                                         <xsd:simpleType>
+                                                             <xsd:union memberTypes="hvac:EfficiencyType comp:SeePlansMessage"/>
+                                                            <xsd:restriction base="hvac:EfficiencyType">
+                                                               <xsd:enumeration value="COP"/>
+                                                               <xsd:enumeration value="EER"/>
+                                                               <xsd:enumeration value="SEER"/>
+                                                               <xsd:enumeration value="SEER2"/>
+                                                            </xsd:restriction>
+                                                         </xsd:simpleType>
                                                       </xsd:element>
                                                       <xsd:choice maxOccurs="1">
                                                          <xsd:element name="Dfhp11cc_EfficiencyEER_IEER">
@@ -2531,7 +2543,7 @@ End If</xsd:documentation>
  If Fdfhp11a_EfficiencyEER_IEER IsPresent
 result = result2 in Fdfhp11a_EfficiencyEER_IEER
 Else result = SeePlans
-End If 
+End If
 Else If CC-PRF parent 
 If Dfhp07a_EfficiencyEER_IEER IsPresent
 result = result2 in Dfhp07a_EfficiencyEER_IEER
@@ -3277,7 +3289,7 @@ End if</xsd:documentation>
                                                                <xsd:documentation source="FieldText">Rated Input (Btu/h)</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If CC-MCH parent 
 IF Fc04_BoilerRatedInput IsPresent
-result = CC-MCH  Fc04_BoilerRatedInput 
+result = CC-MCH  Fc04_BoilerRatedInput
 Else result = SeePlans
 Else result = SeePlans</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
@@ -8537,7 +8549,7 @@ End If</xsd:documentation>
                           <xsd:element name="Ventnr06_ExhaustPerSpace" type="com:ExhaustPerSpace" >
                              <xsd:annotation>
                                 <xsd:documentation source="FieldText">Exhaust Ventilation CFM</xsd:documentation>
-                                <xsd:documentation source="CalculationsAndRules">If Ventnr06cc_ExhaustPerSpace IsPresent  
+                                <xsd:documentation source="CalculationsAndRules">If Ventnr06cc_ExhaustPerSpace IsPresent
 If Ventnr01_InstalledSameAsCC == true
 result = Ventnr06cc_ExhaustPerSpace but value can be changed
 Else If Ventnr01_InstalledSameAsCC == false
@@ -8601,7 +8613,7 @@ End If</xsd:documentation>
                           <xsd:element name="Ventnr07_OccupantSensorVent" type="comp:OccupantSensorVent" >
                              <xsd:annotation>
                                 <xsd:documentation source="FieldText">Occupant Sensor Controls</xsd:documentation>
-                                <xsd:documentation source="CalculationsAndRules">If Ventnr07cc_OccupantSensorVent IsPresent 
+                                <xsd:documentation source="CalculationsAndRules">If Ventnr07cc_OccupantSensorVent IsPresent
 If Ventnr01_InstalledSameAsCC == true
 result = Ventnr07cc_OccupantSensorVent but user can change value
 Else If Ventnr01_InstalledSameAsCC == false
@@ -8613,7 +8625,7 @@ End If</xsd:documentation>
                           <xsd:element name="Ventnr07_NotApplicableMessage" >
                              <xsd:annotation>
                                 <xsd:documentation source="FieldText">Occupant Sensor Controls</xsd:documentation>
-                                <xsd:documentation source="CalculationsAndRules">If Ventnr07cc_NotApplicableMessage IsPresent 
+                                <xsd:documentation source="CalculationsAndRules">If Ventnr07cc_NotApplicableMessage IsPresent
 result = Ventnr07cc_NotApplicableMessage
 End If</xsd:documentation>
                              </xsd:annotation>
@@ -8665,7 +8677,7 @@ End If</xsd:documentation>
                           <xsd:element name="Ventnr08_DemandControlVent" type="comp:DemandControlVent" >
                              <xsd:annotation>
                                 <xsd:documentation source="FieldText">Demand Control Ventilation</xsd:documentation>
-                                <xsd:documentation source="CalculationsAndRules">If Ventnr08cc_DemandControlVent IsPresent 
+                                <xsd:documentation source="CalculationsAndRules">If Ventnr08cc_DemandControlVent IsPresent
 If Ventnr01_InstalledSameAsCC == true
 result = Ventnr08cc_DemandControlVent but user can change value
 Else If Ventnr01_InstalledSameAsCC == false
@@ -8677,7 +8689,7 @@ End If</xsd:documentation>
                           <xsd:element name="Ventnr08_NotApplicableMessage" >
                              <xsd:annotation>
                                 <xsd:documentation source="FieldText">Demand Control Ventilation</xsd:documentation>
-                                <xsd:documentation source="CalculationsAndRules">If Ventnr08cc_NotApplicableMessage IsPresent  
+                                <xsd:documentation source="CalculationsAndRules">If Ventnr08cc_NotApplicableMessage IsPresent
 result = Ventnr08cc_NotApplicableMessage
 End If</xsd:documentation>
                              </xsd:annotation>

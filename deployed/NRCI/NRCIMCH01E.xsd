@@ -1213,6 +1213,7 @@ End If</xsd:documentation>
                                                                   <xsd:enumeration value="CombustionEfficiency"/>
                                                                   <xsd:enumeration value="COP"/>
                                                                   <xsd:enumeration value="HSPF"/>
+                                                                  <xsd:enumeration value="HSPF2"/>
                                                                   <xsd:enumeration value="ThermalEfficiency"/>
                                                                </xsd:restriction>
                                                             </xsd:simpleType>
@@ -1259,6 +1260,7 @@ End If</xsd:documentation>
                                                                   <xsd:enumeration value="CombustionEfficiency"/>
                                                                   <xsd:enumeration value="COP"/>
                                                                   <xsd:enumeration value="HSPF"/>
+                                                                  <xsd:enumeration value="HSPF2"/>
                                                                   <xsd:enumeration value="ThermalEfficiency"/>
                                                                </xsd:restriction>
                                                             </xsd:simpleType>
@@ -1526,8 +1528,10 @@ Else result = SeePlans</xsd:documentation>
                                                                <xsd:restriction base="hvac:EfficiencyType">
                                                                   <xsd:enumeration value="COP"/>
                                                                   <xsd:enumeration value="EER"/>
+                                                                  <xsd:enumeration value="EER2"/>
                                                                   <xsd:enumeration value="SCOP"/>
                                                                   <xsd:enumeration value="SEER"/>
+                                                                  <xsd:enumeration value="SEER2"/>
                                                                </xsd:restriction>
                                                             </xsd:simpleType>
                                                          </xsd:element>
@@ -1570,8 +1574,10 @@ End If</xsd:documentation>
                                                                <xsd:restriction base="hvac:EfficiencyType">
                                                                   <xsd:enumeration value="COP"/>
                                                                   <xsd:enumeration value="EER"/>
+                                                                  <xsd:enumeration value="EER2"/>
                                                                   <xsd:enumeration value="SCOP"/>
                                                                   <xsd:enumeration value="SEER"/>
+                                                                  <xsd:enumeration value="SEER2"/>
                                                                </xsd:restriction>
                                                             </xsd:simpleType>
                                                          </xsd:element>
@@ -2534,7 +2540,13 @@ End If</xsd:documentation>
                                                             </xsd:appinfo>
                                                          </xsd:annotation>
                                                          <xsd:simpleType>
-                                                            <xsd:union memberTypes="hvac:EfficiencyType comp:SeePlansMessage"/>
+                                                             <xsd:union memberTypes="hvac:EfficiencyType comp:SeePlansMessage"/>
+                                                            <xsd:restriction base="hvac:EfficiencyType">
+                                                               <xsd:enumeration value="COP"/>
+                                                               <xsd:enumeration value="EER"/>
+                                                               <xsd:enumeration value="SEER"/>
+                                                               <xsd:enumeration value="SEER2"/>
+                                                            </xsd:restriction>
                                                          </xsd:simpleType>
                                                       </xsd:element>
                                                       <xsd:choice maxOccurs="1">
@@ -2545,7 +2557,7 @@ End If</xsd:documentation>
  If Fdfhp11a_EfficiencyEER_IEER IsPresent
 result = result2 in Fdfhp11a_EfficiencyEER_IEER
 Else result = SeePlans
-End If 
+End If
 Else If CC-PRF parent 
 If Dfhp07a_EfficiencyEER_IEER IsPresent
 result = result2 in Dfhp07a_EfficiencyEER_IEER
@@ -3295,7 +3307,7 @@ End if</xsd:documentation>
                                                                <xsd:documentation source="FieldText">Rated Input (Btu/h)</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If CC-MCH parent 
 IF Fc04_BoilerRatedInput IsPresent
-result = CC-MCH  Fc04_BoilerRatedInput 
+result = CC-MCH  Fc04_BoilerRatedInput
 Else result = SeePlans
 Else result = SeePlans</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
