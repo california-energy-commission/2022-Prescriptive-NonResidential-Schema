@@ -403,7 +403,7 @@ End If</xsd:documentation>
                            <xsd:element name="Row" minOccurs="1" maxOccurs="unbounded">
                               <xsd:complexType>
                                  <xsd:sequence>
-                                    <xsd:element name="Dry01cc_HvacSystemName" type="comp:HvacSystemName">
+                                    <xsd:element name="Dry01cc_HvacSystemName">
                                        <xsd:annotation>
                                           <xsd:documentation source="FieldText">Name or Item Tag</xsd:documentation>
                                           <xsd:documentation source="CalculationsAndRules">If CC-MCH parent 
@@ -885,7 +885,7 @@ End If</xsd:documentation>
 If F06_HeatingRatedCapacity IsPresent
 result = CC-MCH F06_HeatingRatedCapacity
 Else result = SeePlans
-Else If CC-PRF parent and HvacDry04_HeatingDesignCapacity IsPresent 
+Else If CC-PRF parent and HvacDry04_HeatingDesignCapacity IsPresent
 result = CC-PRF HvacDry04_HeatingDesignCapacity
 Else result == SeePlans
 End If,</xsd:documentation>
@@ -6208,6 +6208,8 @@ End If</xsd:documentation>
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Fan Function</xsd:documentation>
                                                                <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
+   If H02_FanFunction IsPresent
+   Else result = SeePlans
    result = H02_FanFunction
    Else If CC-PRF parent
    If Fan01cc_FanSystemName is from Fan01_HvacSystemName
