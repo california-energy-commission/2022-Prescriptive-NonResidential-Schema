@@ -1939,6 +1939,7 @@ If TableChiller IsPresent  Then for every row
 If Fd02_ChillerType == AirCooledWithCondenser or AirCooledWithOutCondenser then Fd04_ChillerTonsRange != GTE300ToLT400 or GTE400ToLT600 or GTE600
 If Fd05_ChillerExceptionPathB != EfficiencyException6 Or EfficiencyException7 Or EfficiencyException8 
 If any field in range Fd01 - Fd10 != BlankGrayedOut has data Then
+
  
 Switch (Fd08a_EfficiencyType )
 case EER: 
@@ -3939,8 +3940,10 @@ case SPV_ACHP:
 result1 = EER; 
  
 case  UnitaryCondensersAC: case UnitaryCondensersAC_NoElectR
-If SizeRangeUnitaryCondensersAC == LT65000  And F03_ UnitaryCondensersAC  != AirCooledPkg1PhaseAC Or AirCooledSplit1PhaseAC
+If SizeRangeUnitaryCondensersAC == LT65000  And F03_ UnitaryCondensersAC  != AirCooledPkg1PhaseAC Or AirCooledSplit1PhaseAC or AirCooledPkg3PhaseAC or AirCooledSplit3PhaseAC 
 result1 = SEER;  
+Else if SizeRangeUnitaryCondensersAC == LT65000  And F03_ UnitaryCondensersAC  == AirCooledPkg3PhaseAC or AirCooledSplit3PhaseAC  
+user selects from list SEER, SEER2;
 End If
  
 case UnitaryHeatPumps: case UnitaryHeatPumpsNoElectR: 
@@ -3948,8 +3951,10 @@ If F03_UnitaryHeatPumps == GroundSourceHP, GroundWaterSourceHP, GroundWaterSourc
 result1 = EER; 
 Else If F03_UnitaryHeatPumps == AirCooledGasEngineHP 
 result1 = COP; 
-Else If F03_UnitaryHeatPumps == AirCooledSplit3PhaseHP, AirCooledPkg3PhaseHP  Or AirCooledSmallDuctHighVelocityHP And If SizeRangeUnitaryHeatPumps == LT65000 
+Else If F03_UnitaryHeatPumps == AirCooledSmallDuctHighVelocityHP And If SizeRangeUnitaryHeatPumps == LT65000 
 result1 = SEER; 
+Else If F03_UnitaryHeatPumps == AirCooledSplit3PhaseHP, AirCooledPkg3PhaseHP And If SizeRangeUnitaryHeatPumps == LT65000 
+user selects from list SEER, SEER2;
 Else If F03_UnitaryHeatPumps == AirCooledSplit1PhaseHP, AirCooledPkg1PhaseHP, AirCooledSplitConstrainedHP, AirCooledPkgConstrainedHP And If SizeRangeUnitaryHeatPumps == LT65000
 result = SEER2
 End If
@@ -4089,8 +4094,17 @@ result1 = 14.3 (SEER2);
 case AirCooledPkg1PhaseHP:
 result1 = 13.4 (SEER2);
  
-case AirCooledSplit3PhaseHP Or AirCooledPkg3PhaseHP 
-result1 = 14.0 (SEER);  
+case AirCooledPkg3PhaseHP 
+   If Fa07_EfficiencyType == SEER 
+      result1 = 14.0 (SEER);  
+   Else if If Fa07_EfficiencyType == SEER2
+      result1 = 13.4 (SEER2); 
+
+case AirCooledSplit3PhaseHP
+   If Fa07_EfficiencyType == SEER 
+      result1 = 14.0 (SEER);  
+   Else if If Fa07_EfficiencyType == SEER2
+      result1 = 14.3 (SEER2); 
  
 case AirCooledSmallDuctHighVelocityHP: 
 result1 = 12.0 (SEER2); 
@@ -4411,8 +4425,16 @@ End If
                                                                <xsd:documentation source="CalculationsAndRules">If F02_HvacSystemType == UnitaryCondensersAC Or UnitaryCondensersAC_NoElectR use this choice. 
 The value is stored in result1, the top displayed cell and the bottom cell is blank. 
  
-If F03_ UnitaryCondensersAC == AirCooledSplit3PhaseAC Or AirCooledPkg3PhaseAC And SizeRangeUnitaryCondensersAC  == LT65000: 
-result1 = 13.0
+If F03_ UnitaryCondensersAC == AirCooledPkg3PhaseAC And SizeRangeUnitaryCondensersAC  == LT65000: 
+   If Fa07_EfficiencyType == SEER
+      result1 = 14.0
+   Else if Fa07_EfficiencyType == SEER2
+      result1 = 13.4
+Else if F03_ UnitaryCondensersAC == AirCooledSplit3PhaseAC And SizeRangeUnitaryCondensersAC  == LT65000: 
+   If Fa07_EfficiencyType == SEER
+      result1 = 13.0
+   Else if Fa07_EfficiencyType == SEER2
+      result1 = 13.4
 
 Else if F03_ UnitaryCondensersAC == AirCooledSplitConstrainedAC
 result == 12.0
@@ -4596,9 +4618,14 @@ Else If Fa02_SizeRangeUnitaryCondensersAC == GTE45000AndLT65000
 result2 =  13.8 (SEER2) , result1 = 9.8 (EER2)
 End If 
 
-case AirCooledSplitConstrainedAC or AirCooledPkgConstrainedAC
+case AirCooledSplitConstrainedAC 
 If Fa02_SizeRangeUnitaryCondensersAC == LT30000
 result2 = 11.7 (SEER2), result1 = 0 (EER2) 
+End If 
+
+case AirCooledPkgConstrainedAC
+If Fa02_SizeRangeUnitaryCondensersAC == LT30000
+result2 = 12.7 (SEER2), result1 = 0 (EER2) 
 End If 
 End Switch
 </xsd:documentation>
@@ -5610,8 +5637,10 @@ Else If Fdfhp03a_UnitaryHeatPumps == AirCooledSplit3PhaseHP
 result = 8.2;  
 Else If Fdfhp03a_UnitaryHeatPumps ==  AirCooledPkg3PhaseHP  
 result = 8.0;  
-Else If Fdfhp03a_UnitaryHeatPumps == AirCooledSplitConstrainedHP Or AirCooledPkgConstrainedHP 
-result = 6.3;  
+Else If Fdfhp03a_UnitaryHeatPumps == AirCooledPkgConstrainedHP 
+result = 6.7;  
+Else If Fdfhp03a_UnitaryHeatPumps == AirCooledSplitConstrainedHP 
+result = 7.0;  
 Else If Fdfhp03a_UnitaryHeatPumps == AirCooledSplit1PhaseHP 
 result = 7.5;  
 Else If Fdfhp03a_UnitaryHeatPumps == AirCooledSmallDuctHighVelocityHP 
@@ -5848,7 +5877,7 @@ case AirCooledSmallDuctHighVelocityHP:
 result1 = 12.0 (SEER2); 
  
 case AirCooledSplitConstrainedHP Or AirCooledPkgConstrainedHP: 
-result1 = 11.9 (SEER2); 
+result1 = 13.9 (SEER2); 
 End Switch
  
 Else If Fdfhp04a_SizeRangeUnitaryHeatPumps == LT135000 
@@ -10004,9 +10033,7 @@ result - H00b_HvacSystemCount;</xsd:documentation>
                                        <xsd:element name="Hexhaust02_NotApplicableMessage" >
                                           <xsd:annotation>
                                              <xsd:documentation source="FieldText">Qty</xsd:documentation>
-                                             <xsd:documentation source="CalculationsAndRules">If Hexhaust07_HeatRecoveryExemptions != NoExemptApply
-result = BlankGrayedOut
-End If</xsd:documentation>
+                                             <xsd:documentation source="CalculationsAndRules"> </xsd:documentation>
                                           </xsd:annotation>
                                           <xsd:simpleType>
                                              <xsd:restriction base="comp:NotApplicableMessage">
@@ -10025,9 +10052,7 @@ End If</xsd:documentation>
                                        <xsd:element name="Hexhaust03_NotApplicableMessage" >
                                           <xsd:annotation>
                                              <xsd:documentation source="FieldText">Hours of Operation per Year</xsd:documentation>
-                                             <xsd:documentation source="CalculationsAndRules">If Hexhaust07_HeatRecoveryExemptions != NoExemptApply
-result = BlankGrayedOut
-End If</xsd:documentation>
+                                             <xsd:documentation source="CalculationsAndRules"> </xsd:documentation>
                                           </xsd:annotation>
                                           <xsd:simpleType>
                                              <xsd:restriction base="comp:NotApplicableMessage">
@@ -10081,7 +10106,7 @@ End If</xsd:documentation>
                                              <xsd:documentation source="FieldText">Exhaust Air Heat Recovery [d:t24refnolink/]140.4(q) &amp; [d:t24refnolink/]170.2(c)4O</xsd:documentation>
                                              <xsd:documentation source="CalculationsAndRules">Calculated field: This choice has the logic for Hexhaust03_HeatRecoveryHours == LT8000Hrs
  
-If Hexhaust03_HeatRecoveryHours == LT8000Hrs
+If Hexhaust03_HeatRecoveryHours == LT8000Hrs and Hexhaust07_HeatRecoveryExemptions == NoExemptApply
 If Hexhaust06_OutdoorAirflowPct LT 20%
 result = HeatCoolNotRequired
 Else If Hexhaust06_OutdoorAirflowPct GTE 20% And LT 30%
@@ -10090,12 +10115,6 @@ result = HeatCoolNotRequired
 Else If A02_ClimateZoneNumber == 1
 If Hexhaust04_AirflowDesignRate LT 15000
 result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
@@ -10103,24 +10122,12 @@ End If
 Else If A02_ClimateZoneNumber == 2
 If Hexhaust04_AirflowDesignRate LT 20000
 result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
 
 Else If A02_ClimateZoneNumber == 11, 12, 13, 14, 15, Or 16
 If Hexhaust04_AirflowDesignRate LT 18500
-result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
 result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
@@ -10133,24 +10140,12 @@ result = HeatCoolNotRequired
 Else If A02_ClimateZoneNumber == 1
 If Hexhaust04_AirflowDesignRate LT 13000
 result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
 
 Else If A02_ClimateZoneNumber == 2, 11, 12, 13, 14, 15, Or 16
 If Hexhaust04_AirflowDesignRate LT 15000
-result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
 result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
@@ -10163,12 +10158,6 @@ result = HeatCoolNotRequired
 Else If A02_ClimateZoneNumber == 1, 11, 12, 13, 14, 15, Or 16
 If Hexhaust04_AirflowDesignRate LT 10000
 result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
@@ -10176,24 +10165,12 @@ End If
 Else If A02_ClimateZoneNumber == 2
 If Hexhaust04_AirflowDesignRate LT 12000
 result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
 
 Else If A02_ClimateZoneNumber == 10
 If Hexhaust04_AirflowDesignRate LT 22000
-result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
 result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
@@ -10206,24 +10183,12 @@ result = HeatCoolNotRequired
 Else If A02_ClimateZoneNumber == 1
 If Hexhaust04_AirflowDesignRate LT 9000
 result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
 
 Else If A02_ClimateZoneNumber == 2 
 If Hexhaust04_AirflowDesignRate LT 10000
-result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
 result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
@@ -10232,12 +10197,6 @@ End If
 Else If A02_ClimateZoneNumber == 4 
 If Hexhaust04_AirflowDesignRate LT 18500
 result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
@@ -10245,24 +10204,12 @@ End If
 Else If A02_ClimateZoneNumber == 10
 If Hexhaust04_AirflowDesignRate LT 17000
 result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
 
 Else If A02_ClimateZoneNumber == 11, 12, 13, 14, 15 Or 16
 If Hexhaust04_AirflowDesignRate LT 8000
-result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
 result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
@@ -10275,24 +10222,12 @@ result = HeatCoolNotRequired
 Else If A02_ClimateZoneNumber == 1 11, 12, 13, 14, 15, Or 16
 If Hexhaust04_AirflowDesignRate LT 7000
 result = HeatCoolNotRequired
-Else  If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
 
 Else If A02_ClimateZoneNumber == 2
 If Hexhaust04_AirflowDesignRate LT 7500
-result = HeatCoolNotRequired
-Else  If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
 result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
@@ -10301,24 +10236,12 @@ End If
 Else If A02_ClimateZoneNumber == 9
 If Hexhaust04_AirflowDesignRate LT 20000
 result = HeatCoolNotRequired
-Else  If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
 
 Else If A02_ClimateZoneNumber == 10
 If Hexhaust04_AirflowDesignRate LT 1500
-result = HeatCoolNotRequired
-Else  If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
 result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
@@ -10331,24 +10254,12 @@ result = HeatCoolNotRequired
 Else If A02_ClimateZoneNumber == 1 
 If Hexhaust04_AirflowDesignRate LT 6500
 result = HeatCoolNotRequired
-Else  If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
 
 Else If A02_ClimateZoneNumber == 2
 If Hexhaust04_AirflowDesignRate LT 7000
-result = HeatCoolNotRequired
-Else  If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
 result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
@@ -10357,24 +10268,12 @@ End If
 Else If A02_ClimateZoneNumber == 4
 If Hexhaust04_AirflowDesignRate LT 15000
 result = HeatCoolNotRequired
-Else  If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
 
 Else If A02_ClimateZoneNumber == 9
 If Hexhaust04_AirflowDesignRate LT 17000
-result = HeatCoolNotRequired
-Else  If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
 result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
@@ -10383,24 +10282,12 @@ End If
 Else If A02_ClimateZoneNumber == 10
 If Hexhaust04_AirflowDesignRate LT 14000
 result = HeatCoolNotRequired
-Else  If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
  
 Else If A02_ClimateZoneNumber == 11, 12, 13, 14, 15, Or 16
 If Hexhaust04_AirflowDesignRate LT 5000
-result = HeatCoolNotRequired
-Else  If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
 result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
@@ -10412,24 +10299,12 @@ result = HeatCoolNotRequired
 Else If A02_ClimateZoneNumber == 1 
 If Hexhaust04_AirflowDesignRate LT 4500
 result = HeatCoolNotRequired
-Else  If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
 
 Else If A02_ClimateZoneNumber == 2
 If Hexhaust04_AirflowDesignRate LT 6500
-result = HeatCoolNotRequired
-Else  If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
 result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
@@ -10438,24 +10313,12 @@ End If
 Else If A02_ClimateZoneNumber == 4
 If Hexhaust04_AirflowDesignRate LT 14000
 result = HeatCoolNotRequired
-Else  If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
 
 Else If A02_ClimateZoneNumber == 9
 If Hexhaust04_AirflowDesignRate LT 15000
-result = HeatCoolNotRequired
-Else  If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
 result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
@@ -10464,12 +10327,6 @@ End If
 Else If A02_ClimateZoneNumber == 10
 If Hexhaust04_AirflowDesignRate LT 13000
 result = HeatCoolNotRequired
-Else  If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
@@ -10477,16 +10334,17 @@ End If
 Else If A02_ClimateZoneNumber == 11, 12, 13, 14, 15, Or 16
 If Hexhaust04_AirflowDesignRate LT 2000
 result = HeatCoolNotRequired
-Else  If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
 End If
+Else If Hexhaust07_HeatRecoveryExemptions != NoExemptApply                                            
+   If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
+      result = CoolOnlyRequired
+   Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
+      result = HeatOnlyRequired
+   Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
+      result = HeatCoolNotRequired
 End If</xsd:documentation>
                                           </xsd:annotation>
                                        </xsd:element>
@@ -10494,18 +10352,12 @@ End If</xsd:documentation>
                                           <xsd:annotation>
                                              <xsd:documentation source="FieldText">Exhaust Air Heat Recovery [d:t24refnolink/]140.4(q) &amp; [d:t24refnolink/]170.2(c)4O</xsd:documentation>
                                              <xsd:documentation source="CalculationsAndRules">Calculated field:  This choice has the logic for Hexhaust03_HeatRecoveryHours == GTE8000Hrs
- If Hexhaust03_HeatRecoveryHours == GTE8000Hrs  
+If Hexhaust03_HeatRecoveryHours == GTE8000Hrs and Hexhaust07_HeatRecoveryExemptions == NoExemptApply
 If Hexhaust06_OutdoorAirflowPct LT 20%
 If A02_ClimateZoneNumber  == 3, 4, 5, 6, 7, 8, Or 9
 result = HeatCoolNotRequired
 Else If A02_ClimateZoneNumber == 1,2, 13, 14, 15, Or 16
 If Hexhaust04_AirflowDesignRate LT 10000
-result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
 result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
@@ -10514,24 +10366,12 @@ End If
 Else If A02_ClimateZoneNumber == 10, 11 
 If Hexhaust04_AirflowDesignRate LT 40000
 result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
 
 Else If A02_ClimateZoneNumber == 12 
 If Hexhaust04_AirflowDesignRate LT 20000
-result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
 result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
@@ -10544,24 +10384,12 @@ result = HeatCoolNotRequired
 Else If A02_ClimateZoneNumber == 1 
 If Hexhaust04_AirflowDesignRate LT 2000
 result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
 
 Else If A02_ClimateZoneNumber == 2, 11, 12, 13, 14, 15, Or 16
 If Hexhaust04_AirflowDesignRate LT 5000
-result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
 result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
@@ -10570,12 +10398,6 @@ End If
 Else If A02_ClimateZoneNumber == 3
 If Hexhaust04_AirflowDesignRate LT 13000
 result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
@@ -10583,24 +10405,12 @@ End If
 Else If A02_ClimateZoneNumber == 4, Or 5
 If Hexhaust04_AirflowDesignRate LT 9000
 result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
 
 Else If A02_ClimateZoneNumber == 10 Or 11
 If Hexhaust04_AirflowDesignRate LT 15000
-result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
 result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
@@ -10613,24 +10423,12 @@ result = HeatCoolNotRequired
 Else If A02_ClimateZoneNumber == 1
 If Hexhaust04_AirflowDesignRate LT 2000
 result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
 
 Else If A02_ClimateZoneNumber == 2, 13, 14, 15, Or 16
 If Hexhaust04_AirflowDesignRate LT 3000
-result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
 result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
@@ -10639,24 +10437,12 @@ End If
 Else If A02_ClimateZoneNumber == 3
 If Hexhaust04_AirflowDesignRate LT 10000
 result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
 
 Else If A02_ClimateZoneNumber == 4, Or 5
 If Hexhaust04_AirflowDesignRate LT 6500
-result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
 result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
@@ -10665,24 +10451,12 @@ End If
 Else If A02_ClimateZoneNumber ==  9
 If Hexhaust04_AirflowDesignRate LT 15000
 result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
 
 Else If A02_ClimateZoneNumber ==  10 Or 11
 If Hexhaust04_AirflowDesignRate LT 7500
-result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
 result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
@@ -10695,24 +10469,12 @@ result = HeatCoolNotRequired
 Else If A02_ClimateZoneNumber == 1,2, 12, 13, 14, 15, Or 16
 If Hexhaust04_AirflowDesignRate LT 2000
 result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
 
 Else If A02_ClimateZoneNumber == 3
 If Hexhaust04_AirflowDesignRate LT 8000
-result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
 result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
@@ -10721,24 +10483,12 @@ End If
 Else If A02_ClimateZoneNumber == 4, 5,10, Or 11
 If Hexhaust04_AirflowDesignRate LT 6000
 result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
 
 Else If A02_ClimateZoneNumber == 9
 If Hexhaust04_AirflowDesignRate LT 12000
-result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
 result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
@@ -10752,24 +10502,12 @@ result = HeatCoolNotRequired
 Else If A02_ClimateZoneNumber == 1,2, 12, 13, 14, 15, Or 16
 If Hexhaust04_AirflowDesignRate LT 2000
 result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
 
 Else If A02_ClimateZoneNumber == 3
 If Hexhaust04_AirflowDesignRate LT 7000
-result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
 result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
@@ -10778,24 +10516,12 @@ End If
 Else If A02_ClimateZoneNumber == 4, Or 5
 If Hexhaust04_AirflowDesignRate LT 6000
 result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
 
 Else If A02_ClimateZoneNumber == 10, Or 11
 If Hexhaust04_AirflowDesignRate LT 5000
-result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
 result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
@@ -10804,24 +10530,12 @@ End If
 Else If A02_ClimateZoneNumber == 8
 If Hexhaust04_AirflowDesignRate LT 20000
 result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
 
 Else If A02_ClimateZoneNumber == 9
 If Hexhaust04_AirflowDesignRate LT 10000
-result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
 result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
@@ -10833,24 +10547,12 @@ result = HeatCoolNotRequired
 Else If A02_ClimateZoneNumber == 1,2, 12, 13, 14, 15, Or 16
 If Hexhaust04_AirflowDesignRate LT 2000
 result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
 
 Else If A02_ClimateZoneNumber == 3, 4, Or 5
 If Hexhaust04_AirflowDesignRate LT 6000
-result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
 result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
@@ -10859,12 +10561,6 @@ End If
 Else If A02_ClimateZoneNumber == 10, Or 11
 If Hexhaust04_AirflowDesignRate LT 4000
 result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
@@ -10872,24 +10568,12 @@ End If
 Else If A02_ClimateZoneNumber == 8
 If Hexhaust04_AirflowDesignRate LT 18000
 result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
 
 Else If A02_ClimateZoneNumber == 9
 If Hexhaust04_AirflowDesignRate LT 9000
-result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
 result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
@@ -10901,24 +10585,12 @@ result = HeatCoolNotRequired
 Else If A02_ClimateZoneNumber == 1,2, 12, 13, 14, 15, Or 16
 If Hexhaust04_AirflowDesignRate LT 2000
 result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
 
 Else If A02_ClimateZoneNumber == 3
 If Hexhaust04_AirflowDesignRate LT 6000
-result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
 result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
@@ -10927,24 +10599,12 @@ End If
 Else If A02_ClimateZoneNumber == 4, Or 5
 If Hexhaust04_AirflowDesignRate LT 5000
 result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
 
 Else If A02_ClimateZoneNumber == 10, Or 11
 If Hexhaust04_AirflowDesignRate LT 3000
-result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
 result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
@@ -10953,24 +10613,12 @@ End If
 Else If A02_ClimateZoneNumber == 8
 If Hexhaust04_AirflowDesignRate LT 15000
 result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
 
 Else If A02_ClimateZoneNumber == 9
 If Hexhaust04_AirflowDesignRate LT 8000
-result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
 result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
@@ -10982,24 +10630,12 @@ result = HeatCoolNotRequired
 Else If A02_ClimateZoneNumber == 1,2, 12, 13, 14, 15, Or 16
 If Hexhaust04_AirflowDesignRate LT 2000
 result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
 
 Else If A02_ClimateZoneNumber == 3
 If Hexhaust04_AirflowDesignRate LT 6000
-result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
 result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
@@ -11008,24 +10644,12 @@ End If
 Else If A02_ClimateZoneNumber == 4, Or 5
 If Hexhaust04_AirflowDesignRate LT 5000
 result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
 
 Else If A02_ClimateZoneNumber == 10, Or 11
 If Hexhaust04_AirflowDesignRate LT 3000
-result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
 result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
@@ -11034,12 +10658,6 @@ End If
 Else If A02_ClimateZoneNumber == 8
 If Hexhaust04_AirflowDesignRate LT 12000
 result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
@@ -11047,25 +10665,25 @@ End If
 Else If A02_ClimateZoneNumber == 9
 If Hexhaust04_AirflowDesignRate LT 7000
 result = HeatCoolNotRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
-result = CoolOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
-result = HeatOnlyRequired
-Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
-result = HeatCoolNotRequired
 Else
 result = HeatCoolRequired
 End If
  
 End If
+Else If Hexhaust07_HeatRecoveryExemptions != NoExemptApply                                            
+   If Hexhaust07_HeatRecoveryExemptions == CZ15HeatingNA
+      result = CoolOnlyRequired
+   Else If Hexhaust07_HeatRecoveryExemptions == CZ1CoolingNA
+      result = HeatOnlyRequired
+   Else If Hexhaust07_HeatRecoveryExemptions == LabFactoryExhaustNA or LT75%AirFlowWithin20FtNA or OperateLT20HrPerWk or OutdoorAirCZ16NA or SpaceTempLT60NA
+      result = HeatCoolNotRequired
 End If</xsd:documentation>
                                           </xsd:annotation>
                                        </xsd:element>
                                        <xsd:element name="Hexhaust08_NotApplicableMessage" >
                                           <xsd:annotation>
                                              <xsd:documentation source="FieldText">Exhaust Air Heat Recovery [d:t24refnolink/]140.4(q) &amp; [d:t24refnolink/]170.2(c)4O</xsd:documentation>
-                                             <xsd:documentation source="CalculationsAndRules">If Hexhaust07_HeatRecoveryExemptions != NoExemptApply
-result = BlankGrayedOut
+                                             <xsd:documentation source="CalculationsAndRules">
 End If</xsd:documentation>
                                           </xsd:annotation>
                                           <xsd:simpleType>

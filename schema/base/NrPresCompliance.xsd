@@ -1778,15 +1778,15 @@
             <dtyp:displayterm value="NRCCPRCE">NRCC-PRC-E</dtyp:displayterm>
             <dtyp:displayterm value="NRCCPRFE">NRCC-PRF-E</dtyp:displayterm>
             <dtyp:displayterm value="NRCCSABE">NRCC-SAB-E</dtyp:displayterm>
-            <dtyp:displayterm value="NRCIELC01E">NRCI-ELC-01-E</dtyp:displayterm>
-            <dtyp:displayterm value="NRCIENV01E">NRCI-ENV-01-E</dtyp:displayterm>
-            <dtyp:displayterm value="NRCILTI01E">NRCI-LTI-01-E</dtyp:displayterm>
-            <dtyp:displayterm value="NRCILTO01E">NRCI-LTO-01-E</dtyp:displayterm>
-            <dtyp:displayterm value="NRCILTS01E">NRCI-LTS-01-E</dtyp:displayterm>
-            <dtyp:displayterm value="NRCIMCH01E">NRCI-MCH-01-E</dtyp:displayterm>
-            <dtyp:displayterm value="NRCIPLB01E">NRCI-PLB-01-E</dtyp:displayterm>
-            <dtyp:displayterm value="NRCIPRC01E">NRCI-PRC-01-E</dtyp:displayterm>
-            <dtyp:displayterm value="NRCISAB01E">NRCI-SAB-01-E</dtyp:displayterm>
+            <dtyp:displayterm value="NRCIELC01E">NRCI-ELC-E</dtyp:displayterm>
+            <dtyp:displayterm value="NRCIENV01E">NRCI-ENV-E</dtyp:displayterm>
+            <dtyp:displayterm value="NRCILTI01E">NRCI-LTI-E</dtyp:displayterm>
+            <dtyp:displayterm value="NRCILTO01E">NRCI-LTO-E</dtyp:displayterm>
+            <dtyp:displayterm value="NRCILTS01E">NRCI-LTS-E</dtyp:displayterm>
+            <dtyp:displayterm value="NRCIMCH01E">NRCI-MCH-E</dtyp:displayterm>
+            <dtyp:displayterm value="NRCIPLB01E">NRCI-PLB-E</dtyp:displayterm>
+            <dtyp:displayterm value="NRCIPRC01E">NRCI-PRC-E</dtyp:displayterm>
+            <dtyp:displayterm value="NRCISAB01E">NRCI-SAB-E</dtyp:displayterm>
             <dtyp:displayterm value="NRCVMCH04H">NRCV-MCH-04-H</dtyp:displayterm>
             <dtyp:displayterm value="NRCVMCH24H">NRCV-MCH-24-H</dtyp:displayterm>
             <dtyp:displayterm value="NRCVMCH27H">NRCV-MCH-27-H</dtyp:displayterm>
@@ -3268,15 +3268,15 @@
             <dtyp:displayterm value="NRCC-PRC-E">NRCC-PRC-E</dtyp:displayterm>
             <dtyp:displayterm value="NRCC-PRF-E">NRCC-PRF-E</dtyp:displayterm>
             <dtyp:displayterm value="NRCC-SAB-E">NRCC-SAB-E</dtyp:displayterm>
-            <dtyp:displayterm value="NRCI-ELC-01-E">NRCI-ELC-01-E</dtyp:displayterm>
-            <dtyp:displayterm value="NRCI-ENV-01-E">NRCI-ENV-01-E</dtyp:displayterm>
-            <dtyp:displayterm value="NRCI-LTI-01-E">NRCI-LTI-01-E</dtyp:displayterm>
-            <dtyp:displayterm value="NRCI-LTO-01-E">NRCI-LTO-01-E</dtyp:displayterm>
-            <dtyp:displayterm value="NRCI-LTS-01-E">NRCI-LTS-01-E</dtyp:displayterm>
-            <dtyp:displayterm value="NRCI-MCH-01-E">NRCI-MCH-01-E</dtyp:displayterm>
-            <dtyp:displayterm value="NRCI-PLB-01-E">NRCI-PLB-01-E</dtyp:displayterm>
-            <dtyp:displayterm value="NRCI-PRC-01-E">NRCI-PRC-01-E</dtyp:displayterm>
-            <dtyp:displayterm value="NRCI-SAB-01-E">NRCI-SAB-01-E</dtyp:displayterm>
+            <dtyp:displayterm value="NRCI-ELC-01-E">NRCI-ELC-E</dtyp:displayterm>
+            <dtyp:displayterm value="NRCI-ENV-01-E">NRCI-ENV-E</dtyp:displayterm>
+            <dtyp:displayterm value="NRCI-LTI-01-E">NRCI-LTI-E</dtyp:displayterm>
+            <dtyp:displayterm value="NRCI-LTO-01-E">NRCI-LTO-E</dtyp:displayterm>
+            <dtyp:displayterm value="NRCI-LTS-01-E">NRCI-LTS-E</dtyp:displayterm>
+            <dtyp:displayterm value="NRCI-MCH-01-E">NRCI-MCH-E</dtyp:displayterm>
+            <dtyp:displayterm value="NRCI-PLB-01-E">NRCI-PLB-E</dtyp:displayterm>
+            <dtyp:displayterm value="NRCI-PRC-01-E">NRCI-PRC-E</dtyp:displayterm>
+            <dtyp:displayterm value="NRCI-SAB-01-E">NRCI-SAB-E</dtyp:displayterm>
             <dtyp:displayterm value="NRCV-MCH-04-H">NRCV-MCH-04-H</dtyp:displayterm>
             <dtyp:displayterm value="NRCV-MCH-24-H">NRCV-MCH-24-H</dtyp:displayterm>
             <dtyp:displayterm value="NRCV-MCH-27-H">NRCV-MCH-27-H</dtyp:displayterm>
@@ -3435,23 +3435,23 @@
    <xsd:simpleType name="DisplayTagNRCI">
       <xsd:annotation>
          <xsd:appinfo source="displayterm">
-            <dtyp:displayterm value="NRCIELC01E">NRCI-ELC-01-E</dtyp:displayterm>
-            <dtyp:displayterm value="NRCIENV01E">NRCI-ENV-01-E</dtyp:displayterm>
-            <dtyp:displayterm value="NRCILTI01E">NRCI-LTI-01-E</dtyp:displayterm>
+            <dtyp:displayterm value="NRCIELC01E">NRCI-ELC-E</dtyp:displayterm>
+            <dtyp:displayterm value="NRCIENV01E">NRCI-ENV-E</dtyp:displayterm>
+            <dtyp:displayterm value="NRCILTI01E">NRCI-LTI-E</dtyp:displayterm>
             <dtyp:displayterm value="NRCILTI02E">NRCI-LTI-02-E</dtyp:displayterm>
             <dtyp:displayterm value="NRCILTI04E">NRCI-LTI-04-E</dtyp:displayterm>
             <dtyp:displayterm value="NRCILTI05E">NRCI-LTI-05-E</dtyp:displayterm>
             <dtyp:displayterm value="NRCILTI06E">NRCI-LTI-06-E</dtyp:displayterm>
-            <dtyp:displayterm value="NRCILTO01E">NRCI-LTO-01-E</dtyp:displayterm>
+            <dtyp:displayterm value="NRCILTO01E">NRCI-LTO-E</dtyp:displayterm>
             <dtyp:displayterm value="NRCILTO02E">NRCI-LTO-02-E</dtyp:displayterm>
-            <dtyp:displayterm value="NRCILTS01E">NRCI-LTS-01-E</dtyp:displayterm>
-            <dtyp:displayterm value="NRCIMCH01E">NRCI-MCH-01-E</dtyp:displayterm>
-            <dtyp:displayterm value="NRCIPLB01E">NRCI-PLB-01-E</dtyp:displayterm>
+            <dtyp:displayterm value="NRCILTS01E">NRCI-LTS-E</dtyp:displayterm>
+            <dtyp:displayterm value="NRCIMCH01E">NRCI-MCH-E</dtyp:displayterm>
+            <dtyp:displayterm value="NRCIPLB01E">NRCI-PLB-E</dtyp:displayterm>
             <dtyp:displayterm value="NRCIPLB02E">NRCI-PLB-02-E</dtyp:displayterm>
             <dtyp:displayterm value="NRCIPLB03E">NRCI-PLB-03-E</dtyp:displayterm>
-            <dtyp:displayterm value="NRCIPRC01E">NRCI-PRC-01-E</dtyp:displayterm>
+            <dtyp:displayterm value="NRCIPRC01E">NRCI-PRC-E</dtyp:displayterm>
             <dtyp:displayterm value="NRCISPV01E">NRCI-SPV-01-E</dtyp:displayterm>
-            <dtyp:displayterm value="NRCISAB01E">NRCI-SAB-01-E</dtyp:displayterm>
+            <dtyp:displayterm value="NRCISAB01E">NRCI-SAB-E</dtyp:displayterm>
             <dtyp:displayterm value="NRCISTH01E">NRCI-STH-01-E</dtyp:displayterm>
          </xsd:appinfo>
       </xsd:annotation>
@@ -6110,7 +6110,6 @@
             <dtyp:displayterm value="SubAreaComplianceInF">Table F indicates a subarea that is not in compliance with the requirements.  Please revisit Table F</dtyp:displayterm>
             <dtyp:displayterm value="UserChangedSelectionInCI">Selections made in Certificates of Installation Table have been changed by the permit applicant.  See Table E. Additional Remarks for permit applicant's explanation.</dtyp:displayterm>
             <dtyp:displayterm value="BatteryExempt5000SF">One or more tenant building types within your project has less than 5,000 sf of conditioned space. This building type will not be factored into the battery sizing calculation per Exception 3 to Section 140.10(b)</dtyp:displayterm>
-            <dtyp:displayterm value="BatteryExempt5000SF">One or more tenant spaces within your project has less than 5,000 sf of conditioned space. The space will not be factored into the battery sizing calculation per Exception 3 to Section 140.10(b)</dtyp:displayterm>
             <dtyp:displayterm value="BatteryExemptCZ1OfficeSchoolWarehouse">Battery storage systems are not required for offices, schools and warehouses in Climate Zone 1. These spaces will not be factored into the minimum battery rated energy and rated power capacities per Exception 4 to 140.10(b)</dtyp:displayterm>
          </xsd:appinfo>
       </xsd:annotation>
@@ -9421,6 +9420,7 @@
       <xsd:annotation>
          <xsd:appinfo source="displayterm">
             <dtyp:displayterm value="AthleticNA">NA: Athletic Fields/Playgrounds Lighting</dtyp:displayterm>
+            <dtyp:displayterm value="FacadeGTE24Ft">NA: Facade, etc. [d:gt/]24 ft</dtyp:displayterm>
             <dtyp:displayterm value="FacadeLTE24Ft">NA: Facade, etc. [d:lt/]24 ft</dtyp:displayterm>
             <dtyp:displayterm value="GTE24Ft">NA: [d:gte/]24 ft</dtyp:displayterm>
             <dtyp:displayterm value="HistoricBuildingNA">NA: Historical Building Lighting</dtyp:displayterm>
@@ -9441,10 +9441,12 @@
             <dtyp:displayterm value="ThemeParkNA">NA: Theme Park Special Effect Lighting</dtyp:displayterm>
             <dtyp:displayterm value="TimeOutNA">H&amp;LS: time-out period longer than 15 minutes/ dimming level above 50 percent</dtyp:displayterm>
             <dtyp:displayterm value="TunnelsNA">NA: Lighting in Tunnels</dtyp:displayterm>
+            <dtyp:displayterm value="WallGTE24Ft">NA: [d:gte/]24 ft</dtyp:displayterm>
          </xsd:appinfo>
       </xsd:annotation>
       <xsd:restriction base="dtyp:EnumerationConstant">
          <xsd:enumeration value="AthleticNA"/>
+         <xsd:enumeration value="FacadeGTE24Ft"/>
          <xsd:enumeration value="FacadeLTE24Ft"/>
          <xsd:enumeration value="GTE24Ft"/>
          <xsd:enumeration value="HistoricBuildingNA"/>
@@ -9465,6 +9467,7 @@
          <xsd:enumeration value="ThemeParkNA"/>
          <xsd:enumeration value="TimeOutNA"/>
          <xsd:enumeration value="TunnelsNA"/>
+         <xsd:enumeration value="WallGTE24Ft"/>
       </xsd:restriction>
    </xsd:simpleType>
    <xsd:simpleType name="MountingHeightRangeBUG">
