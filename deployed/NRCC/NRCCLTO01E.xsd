@@ -1803,6 +1803,7 @@ End If</xsd:documentation>
                                        <xsd:simpleType>
                                           <xsd:restriction base="comp:MotionSensorCompliance">
                                              <xsd:enumeration value="AthleticNA"/>
+                                             <xsd:enumeration value="FacadeGTE24Ft"/>
                                              <xsd:enumeration value="FacadeLTE24Ft"/>
                                              <xsd:enumeration value="GTE24Ft"/>
                                              <xsd:enumeration value="HistoricBuildingNA"/>
@@ -1822,6 +1823,7 @@ End If</xsd:documentation>
                                              <xsd:enumeration value="ThemeParkNA"/>
                                              <xsd:enumeration value="TimeOutNA"/>
                                              <xsd:enumeration value="TunnelsNA"/>
+                                             <xsd:enumeration value="WallGTE24Ft"/>
                                           </xsd:restriction>
                                        </xsd:simpleType>
                                     </xsd:element>
