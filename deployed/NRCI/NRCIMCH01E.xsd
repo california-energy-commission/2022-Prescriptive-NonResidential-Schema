@@ -5385,25 +5385,22 @@ End If</xsd:documentation>
                               <xsd:complexType>
                                  <xsd:sequence>
                                     <xsd:choice maxOccurs="1">
-                                       <xsd:element name="Eheat01cc_ElectricResistanceName">
+                                       <xsd:element name="Eheat01cc_ElectricResistanceName" type="hvac:ElectricResistanceName">
                                           <xsd:annotation>
                                              <xsd:documentation source="FieldText">Name or Item Tag</xsd:documentation>
                                              <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
 If Ff01_ElectricResistanceName IsPresent
 result = Ff01_ElectricResistanceName
-Else result = SeePlans
-Else result = SeePlans
  
 The result is displayed in both the Per C of C and As-built conditions</xsd:documentation>
                                           </xsd:annotation>
-                                          <xsd:simpleType>
-                                             <xsd:union memberTypes="hvac:ElectricResistanceName comp:NotApplicableMessage"/>
-                                          </xsd:simpleType>
                                        </xsd:element>
                                        <xsd:element name="Eheat01cc_NotApplicableMessage">
                                           <xsd:annotation>
                                              <xsd:documentation source="FieldText">Name or Item Tag</xsd:documentation>
                                              <xsd:documentation source="CalculationsAndRules">If CC-PRF parent 
+result = BlankGrayedOut
+Else If Ff01_ElectricResistanceName IsNotPresent
 result = BlankGrayedOut
 End If</xsd:documentation>
                                           </xsd:annotation>
