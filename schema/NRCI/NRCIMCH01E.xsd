@@ -5381,6 +5381,9 @@ result = Ff01_ElectricResistanceName
  
 The result is displayed in both the Per C of C and As-built conditions</xsd:documentation>
                                           </xsd:annotation>
+                                           <xsd:appinfo source="CIsrc">
+                                               <dtyp:srcSchema form="CCMCH01E"  usage="copy">Ff01_ElectricResistanceName</dtyp:srcSchema>
+                                           </xsd:appinfo>
                                        </xsd:element>
                                        <xsd:element name="Eheat01cc_NotApplicableMessage" >
                                           <xsd:annotation>
@@ -6793,14 +6796,14 @@ End If</xsd:documentation>
                                           <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
 If Hexhaust01_FanSystemName IsPresent
 result = Hexhaust01_FanSystemName
-Else result = SeePlans
-Else result = SeePlans</xsd:documentation>
+Else result = BlankGrayedOut
+Else result = BlankGrayedOut</xsd:documentation>
                                           <xsd:appinfo source="CIsrc">
                                              <dtyp:srcSchema form="CCMCH01E"  usage="copy">Hexhaust01_FanSystemName</dtyp:srcSchema>
                                           </xsd:appinfo>
                                        </xsd:annotation>
                                         <xsd:simpleType>
-                                            <xsd:union memberTypes="hvac:FanSystemName comp:SeePlansMessage"/>
+                                            <xsd:union memberTypes="hvac:FanSystemName comp:NotApplicableMessage"/>
                                         </xsd:simpleType>
                                     </xsd:element>
                                     <xsd:element name="Exhaust01_InMyScope" type="comp:InMyScope" >
@@ -6858,6 +6861,7 @@ Else result = SeePlans
 Else result = SeePlans</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
                                                                   <dtyp:srcSchema form="CCMCH01E"  usage="copy">Hexhaust08lt8000_HeatRecoveryRequirements</dtyp:srcSchema>
+                                                                   <dtyp:srcSchema form="CCMCH01E"  usage="copy">Hexhaust08gte8000_HeatRecoveryRequirements</dtyp:srcSchema>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
                                                              <xsd:simpleType>
@@ -7189,14 +7193,14 @@ If CC-PRF parent the data may be captured in different tables, but this table is
                                           <xsd:documentation source="CalculationsAndRules">If CC-MCH parent
 If Hdwell01_FanSystemName IsPresent
 result = Hdwell01_FanSystemName
-Else result = SeePlans
-Else result = SeePlans</xsd:documentation>
+Else result = BlankGrayedOut
+Else result = BlankGrayedOut</xsd:documentation>
                                           <xsd:appinfo source="CIsrc">
                                              <dtyp:srcSchema form="CCMCH01E"  usage="copy">Hdwell01_FanSystemName</dtyp:srcSchema>
                                           </xsd:appinfo>
                                        </xsd:annotation>
                                         <xsd:simpleType>
-                                            <xsd:union memberTypes="hvac:FanSystemName comp:SeePlansMessage"/>
+                                            <xsd:union memberTypes="hvac:FanSystemName comp:NotApplicableMessage"/>
                                         </xsd:simpleType>
                                     </xsd:element>
                                     <xsd:element name="Dwell01_InMyScope" type="comp:InMyScope" >
@@ -7379,15 +7383,22 @@ result = Dwell03cc_NotApplicableMessage</xsd:documentation>
                                                          </xsd:element>
                                                       </xsd:choice>
                                                       <xsd:choice maxOccurs="1">
-                                                         <xsd:element name="Dwell04cc_FanPowerPerFlow" type="hvac:FanPowerPerFlow" >
+                                                         <xsd:element name="Dwell04cc_FanPowerPerFlow">
                                                             <xsd:annotation>
                                                                <xsd:documentation source="FieldText">Watts/CFM</xsd:documentation>
-                                                               <xsd:documentation source="CalculationsAndRules">Data for this field is a calculation of other CC fields if they are present as follows: 
+                                                               <xsd:documentation source="CalculationsAndRules">
+If Dwell03cc_FanSystemInputPower IsNotPresent or Dwell02cc_FanSystemFlowCapacity IsNotPresent
+result = SeePlans
+Else
+Data for this field is a calculation of other CC fields if they are present as follows: 
 result = (Dwell03cc_FanSystemInputPower x 1,000) / Dwell02cc_FanSystemFlowCapacity</xsd:documentation>
                                                                <xsd:appinfo source="CIsrc">
                                                                   <dtyp:srcSchema form="CCMCH01E"  usage="copy">Hdwell07_FanPowerPerFlow</dtyp:srcSchema>
                                                                </xsd:appinfo>
                                                             </xsd:annotation>
+                                                             <xsd:simpleType>
+                                                                 <xsd:union memberTypes="hvac:FanPowerPerFlow comp:SeePlansMessage"/>
+                                                             </xsd:simpleType>
                                                          </xsd:element>
                                                          <xsd:element name="Dwell04cc_NotApplicableMessage" >
                                                             <xsd:annotation>
@@ -7602,11 +7613,11 @@ End If</xsd:documentation>
                                                    <xsd:documentation source="FieldText">Name or Item Tag</xsd:documentation>
                                                    <xsd:documentation source="CalculationsAndRules">If CC-MCH parent and Hfei02_FanName IsPresent
 result = Hfei02_FanName
-Else result = SeePlans
+Else result = BlankGrayedOut
                                                    </xsd:documentation>
                                                 </xsd:annotation>
                                                  <xsd:simpleType>
-                                                     <xsd:union memberTypes="hvac:FanName comp:SeePlansMessage"/>
+                                                     <xsd:union memberTypes="hvac:FanName comp:NotApplicableMessage"/>
                                                  </xsd:simpleType>
                                              </xsd:element>
                                              <xsd:element name="Fei02_FanName" type="hvac:FanName"  minOccurs="0">
@@ -8458,7 +8469,7 @@ Else result = SeePlans
                                                             </xsd:appinfo>
                                                          </xsd:annotation>
                                                           <xsd:simpleType>
-                                                              <xsd:union memberTypes="hvac:VentSystemOA comp:NotApplicableMessage"/>
+                                                              <xsd:union memberTypes="hvac:VentSystemOA comp:SeePlansMessage"/>
                                                           </xsd:simpleType>
                                                       </xsd:element>
                                                       <xsd:element name="Ventnr02_VentSystemOA" type="hvac:VentSystemOA" >
